@@ -95,4 +95,4 @@ SortIncludes:
   IgnoreExtension: false
 SortUsingDeclarations: LexicographicNumeric
 
-Standard: Cpp03
+Standard: Latest
