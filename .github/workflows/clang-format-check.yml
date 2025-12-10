@@ -1,0 +1,42 @@
+name: Clang-Format Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  clang-format:
+    name: Check clang-format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+
+      - name: Run clang-format check
+        run: |
+          # Liste des extensions C/C++
+          FILES=$(git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
+
+          if [ -z "$FILES" ]; then
+            echo "Aucun fichier C/C++ trouvé, rien à vérifier."
+            exit 0
+          fi
+
+          # Vérification (sans modifier les fichiers)
+          clang-format -i $FILES
+          
+          # Si des fichiers diffèrent après formatage → erreur
+          if ! git diff --exit-code; then
+            echo "::error::Le formatage clang-format est incorrect. Veuillez exécuter clang-format localement."
+            exit 1
+          fi
+
+          echo "Clang-format OK."
