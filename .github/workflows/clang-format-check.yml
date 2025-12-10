@@ -21,20 +21,18 @@ jobs:
 
       - name: Run clang-format check
         run: |
-          # Liste des extensions C/C++
-          FILES=$(git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
+          FILES=$(git ls-files '*.cxx' '*.hxx')
 
           if [ -z "$FILES" ]; then
-            echo "Aucun fichier C/C++ trouvé, rien à vérifier."
+            echo "no file to check."
             exit 0
           fi
 
-          # Vérification (sans modifier les fichiers)
           clang-format -i $FILES
           
-          # Si des fichiers diffèrent après formatage → erreur
+          # If file change -> error
           if ! git diff --exit-code; then
-            echo "::error::Le formatage clang-format est incorrect. Veuillez exécuter clang-format localement."
+            echo "::error::Format error."
             exit 1
           fi
 
