@@ -1,0 +1,39 @@
+name: Clang-Format Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  clang-format:
+    name: Check clang-format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+
+      - name: Run clang-format check
+        run: |
+          FILES=$(git ls-files '*.cxx' '*.hxx')
+
+          if [ -z "$FILES" ]; then
+            echo "no file to check."
+            exit 0
+          fi
+
+          clang-format -i $FILES
+          
+          # If file change -> error
+          if ! git diff --exit-code; then
+            echo "::error::Format error."
+            exit 1
+          fi
+
+          echo "Clang-format OK."
