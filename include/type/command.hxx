@@ -9,7 +9,7 @@ namespace taskmaster {
 
 using t_command = struct {
     t_absolute_path            m_path;
-    std::vector<t_exit_status> m_arguments;
+    std::vector<std::string> m_arguments;
 };
 
 } // namespace taskmaster
