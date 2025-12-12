@@ -39,6 +39,7 @@ SRC := $(strip \
 			) \
 			$(addprefix monitor/, \
 				core \
+				start \
 			) \
 			$(addprefix parser/, \
 				core \

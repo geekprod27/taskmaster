@@ -1,5 +1,6 @@
 *.d
 *.o
+*.d
 *.elf
 .clangd
 .vscode
