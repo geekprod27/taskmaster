@@ -27,6 +27,7 @@ SRC := \
 		$(addsuffix .cxx, \
 			$(addprefix monitor/, \
 				core \
+				start \
 			) \
 			$(addprefix parser/, \
 				core \
@@ -169,7 +170,7 @@ $(ELF): $(OBJ)
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.cxx
 	@$(MKDIR) $(@D)
 	@$(call ANNOUNCE_COMPILATION_PROGRESS)
-	@$(CXX) $(OUTPUT_OPTION) $<
+	@$(CXX) $(CPPFLAGS) $(OUTPUT_OPTION) $<
 	@$(call ANNOUNCE_COMPILATION_DONE)
 
 .PHONY: clean
