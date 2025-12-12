@@ -4,7 +4,9 @@
 #include <cstdint>
 
 namespace taskmaster {
-enum class e_restart_on_exit_rule : uint_fast8_t { ALWAYS, NEVER, ON_UNEXPECTED_EXITS_ONLY };
+
+enum class RestartOnExitRule : uint_fast8_t { ALWAYS, NEVER, ON_UNEXPECTED_EXITS_ONLY };
+
 }
 
 #endif

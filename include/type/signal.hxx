@@ -6,7 +6,7 @@
 namespace taskmaster {
 
 // Only for x86 architecture
-enum class e_signal : uint_fast8_t {
+enum class Signal : uint_fast8_t {
     SIGHUP    = 1,
     SIGINT    = 2,
     SIGQUIT   = 3,

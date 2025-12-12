@@ -3,6 +3,6 @@
 
 #include <string>
 
-namespace taskmaster { using t_absolute_path = std::string; }
+namespace taskmaster { using AbsolutePath = std::string; }
 
 #endif

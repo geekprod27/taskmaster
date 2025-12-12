@@ -6,10 +6,9 @@
 
 namespace taskmaster {
 
-using t_environment_variable_name  = std::string;
-using t_environment_variable_value = std::string;
-
-using t_environment = std::map<t_environment_variable_name, t_environment_variable_value>;
+using EnvironmentVariableName  = std::string;
+using EnvironmentVariableValue = std::string;
+using Environment              = std::map<EnvironmentVariableName, EnvironmentVariableValue>;
 
 } // namespace taskmaster
 

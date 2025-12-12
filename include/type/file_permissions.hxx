@@ -5,7 +5,7 @@
 
 namespace taskmaster {
 
-enum class e_file_permissions : uint_fast8_t {
+enum class Permissions : uint_fast8_t {
     ___,
     __X,
     _W_,
@@ -16,10 +16,10 @@ enum class e_file_permissions : uint_fast8_t {
     RWX,
 };
 
-using t_file_permissions = struct {
-    e_file_permissions user;
-    e_file_permissions group;
-    e_file_permissions others;
+using FilePermissions = struct {
+    Permissions user;
+    Permissions group;
+    Permissions others;
 };
 
 } // namespace taskmaster
