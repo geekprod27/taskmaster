@@ -78,7 +78,8 @@ t_process start_process(
         exit(0);
     }
     else {
-        t_process process = {program_rules, c_pid, program_rules->m_how_many_restart_attempts};
+        std::cout << "Starting process" << std::endl;
+        t_process process = {program_rules, c_pid, std::chrono::steady_clock::now(), program_rules->m_how_many_restart_attempts, false};
         return process;
     }
 }
