@@ -76,4 +76,44 @@ Process::Process(
     exit(EXIT_FAILURE);
 }
 
+bool Process::Monitor()
+{
+    int status;
+    int checkprocess = waitpid(process->m_pid, &status, WNOHANG);
+    if (checkprocess == 0) { // process encore en cours
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - process->m_start
+            )
+                .count()
+            >= process->m_rules->m_successful_start_time) {
+            process->succes_start = true;
+        }
+    }
+    else {
+        if (process->succes_start == false) {
+            if (process->m_how_many_restart_left) {
+                t_process tmp = start_process(process->m_rules);
+                if (tmp.m_pid != 0) {
+                    process->m_pid = tmp.m_pid;
+                    process->m_how_many_restart_left--;
+                }
+            }
+            else {
+                std::cout << "le nombre de restart est arriver" << std::endl;
+                return false;
+            }
+        }
+        else if (process_need_restart(process, status)) {
+            t_process tmp = start_process(process->m_rules);
+            if (tmp.m_pid != 0) {
+                process->m_pid = tmp.m_pid;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+    return true;
+}
+
 } // namespace taskmaster

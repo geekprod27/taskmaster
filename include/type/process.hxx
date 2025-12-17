@@ -18,6 +18,9 @@ public: // fields
 
 public: // constructors
     Process(ProcessRules const &rules);
+
+public:
+    bool Monitor();
 };
 
 } // namespace taskmaster

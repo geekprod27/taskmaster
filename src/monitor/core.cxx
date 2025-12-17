@@ -40,4 +40,24 @@ void start_and_monitor_programs(
     }
 }
 
+bool process_need_restart(
+    t_process *process, int status
+)
+{
+    if (process->m_rules->m_restart_on_exit_rule == taskmaster::e_restart_on_exit_rule::ALWAYS) {
+        return true;
+    }
+    else if (process->m_rules->m_restart_on_exit_rule
+             == taskmaster::e_restart_on_exit_rule::NEVER) {
+        return false;
+    }
+    return std::find(
+               process->m_rules->m_expected_exit_status.begin(),
+               process->m_rules->m_expected_exit_status.end(),
+               status
+           )
+        == process->m_rules->m_expected_exit_status.end();
+}
+
+
 } // namespace taskmaster
