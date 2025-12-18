@@ -42,6 +42,17 @@ char **convert_vector_string(
     return result;
 }
 
+mode_t convert_perms(
+    t_file_permissions perms
+)
+{
+    return static_cast<mode_t>(
+        (static_cast<uint_fast8_t>(perms.user) << 6)
+        | (static_cast<uint_fast8_t>(perms.group) << 3)
+        | (static_cast<uint_fast8_t>(perms.others) << 0)
+    );
+}
+
 t_process start_process(
     t_program_rules const *program_rules
 )
@@ -53,10 +64,14 @@ t_process start_process(
     }
     else if (c_pid == 0) {
         const int fdErr = open(
-            program_rules->m_stderr_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0755
+            program_rules->m_stderr_redirection_file.c_str(),
+            O_WRONLY | O_CREAT | O_APPEND,
+            convert_perms(program_rules->m_permissions_on_new_files)
         );
         const int fdOut = open(
-            program_rules->m_stdout_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0755
+            program_rules->m_stdout_redirection_file.c_str(),
+            O_WRONLY | O_CREAT | O_APPEND,
+            convert_perms(program_rules->m_permissions_on_new_files)
         );
 
         if (fdErr <= 0 || fdOut <= 0) {
@@ -64,11 +79,12 @@ t_process start_process(
             exit(1);
         }
 
-        
         dup2(fdOut, STDOUT_FILENO);
         close(fdOut);
         dup2(fdErr, STDERR_FILENO);
         close(fdErr);
+
+        chdir(program_rules->m_working_directory.c_str());
 
         execve(
             program_rules->m_start_command.m_path.c_str(),
