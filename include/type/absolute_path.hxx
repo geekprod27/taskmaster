@@ -1,21 +1,41 @@
-#ifndef TYPE_ABSOLUTE_PATH
-#define TYPE_ABSOLUTE_PATH
+#ifndef TYPE_ABSOLUTE_PATH_HXX
+#define TYPE_ABSOLUTE_PATH_HXX
 
+#include <stdexcept>
 #include <string>
 
 namespace taskmaster {
 
-class AbsolutePath : public std::string
+class AbsolutePath
 {
+private: // fields
+    std::string m_path;
 
 public: // constructors
-    AbsolutePath() = default;
+    /**
+     * \exception std::invalid_argument if `s` is not a posix compliant absolute path
+     */
+    AbsolutePath(
+        std::string const &&s
+    )
+    : m_path(std::move(s))
+    {
+        if (!is_posix_compliant()) {
+            throw std::invalid_argument("`s` is not a valid posix absolute path");
+        }
+    }
+
+    AbsolutePath(AbsolutePath const &other) = default;
+
+    AbsolutePath(AbsolutePath &&other) = default;
 
 public: // destructor
     ~AbsolutePath() = default;
 
 private: // methods
-    bool is_syntactically_valid() const __attribute__((unavailable("not implemented yet")));
+    bool is_posix_compliant() const __attribute__((unavailable("not implemented yet")));
+
+public: // methods
     bool is_accessible() const __attribute__((unavailable("not implemented yet")));
     bool is_regular_file() const __attribute__((unavailable("not implemented yet")));
 };
