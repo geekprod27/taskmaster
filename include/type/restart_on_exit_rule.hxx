@@ -7,6 +7,6 @@ namespace taskmaster {
 
 enum class RestartOnExitRule : uint_fast8_t { ALWAYS, NEVER, ON_UNEXPECTED_EXITS_ONLY };
 
-}
+} // namespace taskmaster
 
 #endif

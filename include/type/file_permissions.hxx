@@ -16,7 +16,7 @@ enum class Permissions : uint_fast8_t {
     RWX,
 };
 
-using FilePermissions = struct {
+struct FilePermissions {
     Permissions user;
     Permissions group;
     Permissions others;

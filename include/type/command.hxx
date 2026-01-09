@@ -2,13 +2,13 @@
 #define TYPE_COMMAND_HXX
 
 #include "type/absolute_path.hxx"
-#include <vector>
+#include <list>
 
 namespace taskmaster {
 
-using Command = struct {
-    AbsolutePath             m_path;
-    std::vector<std::string> m_arguments;
+struct Command {
+    AbsolutePath           m_path;
+    std::list<std::string> m_arguments;
 };
 
 } // namespace taskmaster
