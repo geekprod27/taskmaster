@@ -12,8 +12,9 @@ jobs:
     steps:
       - name: Prepare system
         run: |
-          sudo echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" > /etc/apt/sources.list.d/llvm.list
-          sudo echo "deb-src http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" >> /etc/apt/sources.list.d/llvm.list
+          sudo echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" > /tmp/install_clang-format
+          sudo echo "deb-src http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" >> /tmp/install_clang-format
+          sudo mv /tmp//tmp/install_clang-format /etc/apt/sources.list.d/llvm.list
           sudo apt-get update
           sudo apt-get install -y clang-format
 
