@@ -17,8 +17,8 @@ jobs:
           echo "" >> /tmp/install_clang-format
           cat /tmp/install_clang-format
           sudo mv /tmp/install_clang-format /etc/apt/sources.list.d/llvm.list
-          sudo apt-get update
-          sudo apt-get install -y clang-format
+          sudo apt update
+          sudo apt install -y clang-format
 
       - name: Checkout repository
         uses: actions/checkout@v4
