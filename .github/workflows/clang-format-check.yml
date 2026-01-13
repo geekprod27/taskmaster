@@ -9,25 +9,17 @@ jobs:
   clang-format:
     name: Check clang-format
     runs-on: ubuntu-latest
+    
+    container:
+      image: debian:testing
 
     steps:
-      - name: Checkout repository
-      - uses: actions/checkout@v4
+      uses: actions/checkout@v4
 
-      - name: Install clang-format 22 (LLVM nightly)
+      - name: Install clang-format 22
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg lsb-release software-properties-common
-
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-
-          sudo add-apt-repository \
-            "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-main main"
-
-          sudo apt-get update
-          sudo apt-get install -y clang-format-22
-
-          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-22 100
+          apt-get update
+          apt-get install -y clang-format
 
       - name: Run clang-format check
         run: |
