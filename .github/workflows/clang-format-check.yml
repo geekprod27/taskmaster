@@ -7,17 +7,26 @@ on:
 
 jobs:
   clang-format:
-    name: Check clang-format
     runs-on: ubuntu-latest
 
     container:
       image: debian:sid
 
     steps:
-      - name: Install clang-format 22
+      - name: Prepare system
         run: |
           apt-get update
-          apt-get install -y clang-format git ca-certificates
+          apt-get install -y git ca-certificates wget gnupg
+
+          # Autorise le workspace GitHub
+          git config --global --add safe.directory /__w/${{ github.repository }}/$(basename $GITHUB_REPOSITORY)
+
+          # Active experimental pour clang-format 22
+          echo "deb http://deb.debian.org/debian experimental main" > /etc/apt/sources.list.d/experimental.list
+          apt-get update
+
+          # Installe clang-format 22 depuis experimental
+          apt-get install -y -t experimental clang-format
 
       - name: Checkout repository
         uses: actions/checkout@v4
