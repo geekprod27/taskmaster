@@ -1,6 +1,6 @@
 // #include "type/program_rules.hxx"
 
-// using namespace taskmaster;
+using namespace taskmaster;
 
 // void monitor_programs(std::vector<t_program_rules> const &program_rules);
 
