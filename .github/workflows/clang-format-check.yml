@@ -9,8 +9,10 @@ jobs:
   clang-format:
     name: Check clang-format
     runs-on: ubuntu-latest
+
     container:
       image: debian:testing
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
