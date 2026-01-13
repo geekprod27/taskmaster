@@ -20,7 +20,7 @@ jobs:
       - name: Install clang-format 22
         run: |
           apt-get update
-          apt-get install -y clang-format-22
+          apt-get install -y clang-format
 
       - name: Run clang-format check
         run: |
