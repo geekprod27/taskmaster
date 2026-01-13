@@ -1,4 +1,4 @@
-name: Clang-Format Check
+name: Compile Check
 
 on:
   pull_request:
