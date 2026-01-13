@@ -15,18 +15,10 @@ jobs:
     steps:
       - name: Prepare system
         run: |
+          echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" > /etc/apt/sources.list.d/llvm.list
+          echo "deb-src http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" >> /etc/apt/sources.list.d/llvm.list
           apt-get update
-          apt-get install -y git ca-certificates wget gnupg
-
-          # Autorise le workspace GitHub
-          git config --global --add safe.directory /__w/${{ github.repository }}/$(basename $GITHUB_REPOSITORY)
-
-          # Active experimental pour clang-format 22
-          echo "deb http://deb.debian.org/debian experimental main" > /etc/apt/sources.list.d/experimental.list
-          apt-get update
-
-          # Installe clang-format 22 depuis experimental
-          apt-get install -y -t experimental clang-format
+          apt-get install -y clang-format
 
       - name: Checkout repository
         uses: actions/checkout@v4
