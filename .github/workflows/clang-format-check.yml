@@ -9,9 +9,6 @@ jobs:
   clang-format:
     runs-on: ubuntu-latest
 
-    container:
-      image: debian:sid
-
     steps:
       - name: Prepare system
         run: |
