@@ -5,25 +5,30 @@ on:
     branches:
       - main
 
-
 jobs:
   clang-format:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install clang-format 22 from LLVM repo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg lsb-release ca-certificates
+
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
+
+          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" \
+            | sudo tee /etc/apt/sources.list.d/llvm.list
+
+          sudo apt-get update
+          sudo apt-get install -y clang-format-22
+
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-22 100
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Install clang-format 22
-        run: |
-          sudo apt update
-          sudo apt install -y wget gnupg lsb-release
-          echo "deb http://deb.debian.org/debian experimental main" | sudo tee /etc/apt/sources.list.d/experimental.list
-          sudo apt update
-          sudo apt install -y -t experimental clang-format-22
-          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-22 100
 
       - name: Run clang-format check
         run: |
