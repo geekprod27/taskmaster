@@ -21,9 +21,7 @@ jobs:
             | sudo tee /etc/apt/sources.list.d/llvm.list
 
           sudo apt-get update
-          sudo apt-get install -y clang-format-22
-
-          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-22 100
+          sudo apt-get install -y clang-format
 
       - name: Checkout repository
         uses: actions/checkout@v4
