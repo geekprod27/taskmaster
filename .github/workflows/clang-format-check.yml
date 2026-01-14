@@ -30,7 +30,6 @@ jobs:
 
       - name: Run clang-format check
         run: |
-          clang-format --version
           FILES=$(git ls-files '*.cxx' '*.hxx')
 
           if [ -z "$FILES" ]; then
