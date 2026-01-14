@@ -19,7 +19,7 @@ jobs:
       - name: Install clang-format 22
         run: |
           sudo apt update
-          sudo apt get install -y wget gnupg lsb-release
+          sudo apt install -y wget gnupg lsb-release
           echo "deb http://deb.debian.org/debian experimental main" | sudo tee /etc/apt/sources.list.d/experimental.list
           sudo apt update
           sudo apt install -y -t experimental clang-format-22
