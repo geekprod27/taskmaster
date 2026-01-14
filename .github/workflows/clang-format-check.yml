@@ -16,16 +16,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git curl tar
-
       - name: Install clang-format 22
         run: |
-          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.0.0/clang+llvm-22.0.0-x86_64-linux-gnu-ubuntu-22.04.tar.xz
-          tar -xf clang+llvm-22.0.0-x86_64-linux-gnu-ubuntu-22.04.tar.xz
-          sudo cp clang+llvm-22.0.0-x86_64-linux-gnu-ubuntu-22.04/bin/clang-format /usr/local/bin/
+          sudo apt update
+          sudo apt get install -y wget gnupg lsb-release
+          echo "deb http://deb.debian.org/debian experimental main" | sudo tee /etc/apt/sources.list.d/experimental.list
+          sudo apt update
+          sudo apt install -y -t experimental clang-format-22
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-22 100
 
       - name: Run clang-format check
         run: |
