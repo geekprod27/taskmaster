@@ -7,17 +7,26 @@ on:
 
 jobs:
   clang-format:
-    name: Check clang-format
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install clang-format
+      - name: Install clang-format 22 from LLVM repo
         run: |
           sudo apt-get update
+          sudo apt-get install -y wget gnupg lsb-release ca-certificates
+
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
+
+          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" \
+            | sudo tee /etc/apt/sources.list.d/llvm.list
+
+          sudo apt-get update
           sudo apt-get install -y clang-format
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Run clang-format check
         run: |
