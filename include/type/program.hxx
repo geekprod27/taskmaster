@@ -9,16 +9,14 @@ namespace taskmaster {
 class Program
 {
 private: // fields
-    ProgramRules const &m_rules;
-    std::list<Process>  m_processes;
+    ProgramRules         m_rules;
+    std::vector<Process> m_processes;
 
 public: // constructors
-    /**
-     * \warning The `rules` reference must remain valid
-     *          for the entire lifetime of the Program instance.
-     */
+    /// \param rules The rules of the program. (will be moved/consumed)
+    ///
     Program(
-        ProgramRules const &rules
+        ProgramRules &&rules
     )
     : m_rules(rules)
     {}

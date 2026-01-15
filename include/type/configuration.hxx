@@ -8,16 +8,10 @@ namespace taskmaster {
 class Configuration
 {
 private: // fields
-    std::list<ProgramRules> m_programs;
-
-public: // constructors
-    Configuration() = default;
-
-public: // destructor
-    ~Configuration() = default;
+    std::vector<ProgramRules> m_programs;
 
 public: // accessors
-    std::list<ProgramRules> const &programs() const { return m_programs; }
+    std::vector<ProgramRules> const &programs() const { return m_programs; }
 
 public: // mutators
     void add_program_rules(

@@ -4,7 +4,6 @@
 #include "type/command.hxx"
 #include "type/environment.hxx"
 #include "type/exit_status.hxx"
-#include "type/file_permissions.hxx"
 #include "type/process_counter.hxx"
 #include "type/restart_attempt_counter.hxx"
 #include "type/restart_on_exit_rule.hxx"
@@ -19,7 +18,7 @@ struct ProgramRules {
     ProcessCounter              m_how_many_processes;
     bool                        m_must_be_started_at_launch;
     RestartOnExitRule           m_restart_on_exit_rule;
-    std::list<ExitStatus>       m_expected_exit_status;
+    std::vector<ExitStatus>     m_expected_exit_status;
     std::chrono::milliseconds   m_successful_start_time;
     RestartAttemptCounter       m_how_many_restart_attempts; // before aborting
     Signal                      m_graceful_stop_signal;
@@ -28,7 +27,7 @@ struct ProgramRules {
     std::optional<AbsolutePath> m_stderr_redirection_file;
     Environment                 m_environment;
     AbsolutePath                m_working_directory;
-    FilePermissions             m_permissions_on_new_files;
+    mode_t                      m_permissions_on_new_files;
 };
 
 } // namespace taskmaster

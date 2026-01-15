@@ -7,7 +7,7 @@ namespace taskmaster {
 
 using ProcessCounter = uint_fast8_t;
 
-constexpr static ProcessCounter const PROCESS_COUNTER_MAX = UINT_FAST8_MAX;
+static constexpr ProcessCounter PROCESS_COUNTER_MAX = UINT_FAST8_MAX;
 
 } // namespace taskmaster
 

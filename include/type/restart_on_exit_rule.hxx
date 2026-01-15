@@ -1,5 +1,5 @@
-#ifndef TYPE_RESTART_RULE_HXX
-#define TYPE_RESTART_RULE_HXX
+#ifndef TYPE_RESTART_ON_EXIT_RULE_HXX
+#define TYPE_RESTART_ON_EXIT_RULE_HXX
 
 #include <cstdint>
 

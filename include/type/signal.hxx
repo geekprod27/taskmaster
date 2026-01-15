@@ -5,7 +5,17 @@
 
 namespace taskmaster {
 
-// Only for x86 architecture
+// Linux signal numbers for architectures:
+// - x86
+// - x64
+// - ARM
+// - most others
+//
+// Not valid for architectures:
+// - Alpha/SPARC
+// - MIPS
+// - PA-RISC
+//
 enum class Signal : uint_fast8_t {
     SIGHUP    = 1,
     SIGINT    = 2,
@@ -37,7 +47,7 @@ enum class Signal : uint_fast8_t {
     SIGPROF   = 27,
     SIGWINCH  = 28,
     SIGIO     = 29,
-    SIGPOLL   = SIGIO,
+    SIGPOLL   = Signal::SIGIO,
     SIGPWR    = 30,
     SIGSYS    = 31,
     SIGUNUSED = 31,
