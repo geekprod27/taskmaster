@@ -18,7 +18,7 @@ public: // constructors
     Program(
         ProgramRules &&rules
     )
-    : m_rules(rules)
+    : m_rules(std::move(rules))
     {}
 };
 

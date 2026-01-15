@@ -20,7 +20,7 @@ public: // constructors
     AbsolutePath(
         std::string &&s
     )
-    : m_path(s)
+    : m_path(std::move(s))
     {
         if (!is_posix_compliant()) {
             throw std::invalid_argument("provided string is not a posix compliant absolute path");
@@ -56,7 +56,7 @@ public: // operators
         std::string &&s
     )
     {
-        m_path = s;
+        m_path = std::move(s);
         if (!is_posix_compliant()) {
             throw std::invalid_argument("provided string is not a posix compliant absolute path");
         }
