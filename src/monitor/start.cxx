@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 using namespace taskmaster;
 
@@ -63,6 +64,7 @@ t_process start_process(
         return {};
     }
     else if (c_pid == 0) {
+        mode_t old = umask(0);
         const int fdErr = open(
             program_rules->m_stderr_redirection_file.c_str(),
             O_WRONLY | O_CREAT | O_APPEND,
@@ -73,7 +75,7 @@ t_process start_process(
             O_WRONLY | O_CREAT | O_APPEND,
             convert_perms(program_rules->m_permissions_on_new_files)
         );
-
+        umask(old);
         if (fdErr <= 0 || fdOut <= 0) {
             std::cerr << "open fail" << std::endl;
             exit(1);

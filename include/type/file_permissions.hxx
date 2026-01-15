@@ -6,14 +6,14 @@
 namespace taskmaster {
 
 enum class e_file_permissions : uint_fast8_t {
-    ___ = 0,
-    __X = 1,
-    _W_ = 2,
-    _WX = 3,
-    R__ = 4,
-    R_X = 5,
-    RW_ = 6,
-    RWX = 7,
+    ___,
+    __X,
+    _W_,
+    _WX,
+    R__,
+    R_X,
+    RW_,
+    RWX,
 };
 
 using t_file_permissions = struct {
