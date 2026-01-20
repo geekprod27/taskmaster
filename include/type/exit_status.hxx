@@ -3,6 +3,6 @@
 
 #include <cstdint>
 
-namespace taskmaster { using t_exit_status = uint_fast8_t; }
+namespace taskmaster { using ExitStatus = uint_fast8_t; }
 
 #endif

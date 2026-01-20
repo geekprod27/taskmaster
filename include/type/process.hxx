@@ -1,15 +1,24 @@
 #ifndef TYPE_PROCESS_HXX
 #define TYPE_PROCESS_HXX
 
-#include "type/program_rules.hxx"
+#include "type/exit_status.hxx"
+#include <optional>
+#include <sys/types.h>
 
 namespace taskmaster {
 
-using t_process = struct {
+class Process
+{
+public: // fields
+    pid_t const               m_id;
+    std::optional<ExitStatus> m_exit_status;
 
-  t_program_rules const *m_rules;
-  pid_t m_pid;
-  t_restart_attempt_counter m_how_many_restart_left;
+public: // constructors
+    Process(
+        pid_t const id
+    )
+    : m_id(id)
+    {}
 };
 
 } // namespace taskmaster
