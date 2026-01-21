@@ -7,8 +7,8 @@
 namespace taskmaster {
 
 struct Command {
-    AbsolutePath             m_path;
-    std::vector<std::string> m_arguments;
+    AbsolutePath       m_path;
+    char const *const *m_arguments;
 };
 
 } // namespace taskmaster

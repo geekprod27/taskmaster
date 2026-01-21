@@ -9,7 +9,6 @@
 #include "type/restart_on_exit_rule.hxx"
 #include "type/signal.hxx"
 #include <chrono>
-#include <optional>
 
 namespace taskmaster {
 
@@ -18,7 +17,7 @@ struct ProgramRules {
     ProcessCounter            m_how_many_processes;
     bool                      m_must_be_started_at_launch;
     RestartOnExitRule         m_restart_on_exit_rule;
-    std::vector<ExitStatus>   m_expected_exit_status;
+    std::vector<ExitStatus>   m_expected_exit_status; // always sorted
     std::chrono::milliseconds m_successful_start_time;
     RestartAttemptCounter     m_how_many_restart_attempts; // before aborting
     Signal                    m_graceful_stop_signal;

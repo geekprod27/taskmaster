@@ -14,18 +14,13 @@ private: // fields
 public: // constructors
     /// \param s The string representing the absolute path. (will be moved/consumed)
     ///
-    /// \exception std::invalid_argument if the provided string is not
-    ///                                  a posix compliant absolute path.
+    /// \warning `s` not being a POSIX compliant absolute path is undefined behavior.
     ///
     AbsolutePath(
         std::string &&s
     )
     : m_path(std::move(s))
-    {
-        if (!is_posix_compliant()) {
-            throw std::invalid_argument("provided string is not a posix compliant absolute path");
-        }
-    }
+    {}
 
     /// \param other The `AbsolutePath` instance to copy.
     ///
@@ -41,25 +36,22 @@ public: // destructor
 private: // methods
     bool exists_on_filesystem() const __attribute__((unavailable("not implemented yet")));
 
+    bool is_regular_file() const __attribute__((unavailable("not implemented yet")));
+
+public: // methods
     /// https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html
     bool is_posix_compliant() const __attribute__((unavailable("not implemented yet")));
-
-    bool is_regular_file() const __attribute__((unavailable("not implemented yet")));
 
 public: // operators
     /// \param s The string representing the absolute path. (will be moved/consumed)
     ///
-    /// \exception std::invalid_argument if the provided string is not
-    ///                                  a posix compliant absolute path.
+    /// \warning `s` not being a POSIX
     ///
     AbsolutePath &operator=(
         std::string &&s
     )
     {
         m_path = std::move(s);
-        if (!is_posix_compliant()) {
-            throw std::invalid_argument("provided string is not a posix compliant absolute path");
-        }
         return *this;
     }
 

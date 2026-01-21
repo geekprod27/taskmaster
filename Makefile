@@ -34,7 +34,10 @@ SRC := \
 			$(addprefix prompt/, \
 				core \
 			) \
+			error \
 			main \
+			run \
+			usage \
 		) \
 	) \
 
@@ -53,6 +56,7 @@ CPPFLAGS := \
 CXXFLAGS := \
 	-Wall \
 	-Wextra \
+	-Wunreachable-code \
 
 LDFLAGS := \
 
