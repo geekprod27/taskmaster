@@ -16,7 +16,9 @@ private: // fields
     std::unique_ptr<char *[]> m_array;
 
 public: // constructors
-    constexpr CStringArray() noexcept : m_size(), m_array() {}
+    /// \exception std::bad_alloc if an internal allocation fails.
+    ///
+    CStringArray() : m_size(), m_array(std::make_unique<char *[]>(1)) {}
 
     /// \param other The `CStringArray` to deep-copy.
     ///
@@ -44,7 +46,6 @@ public: // constructors
             m_array.get(),
             [](std::unique_ptr<char, void (*)(void *)> &ptr) { return ptr.release(); }
         );
-        m_array[m_size] = nullptr;
     }
 
     /// \param other The `CStringArray` to move.
@@ -52,17 +53,15 @@ public: // constructors
     CStringArray(
         CStringArray &&other
     ) noexcept
-    : m_size(std::move(other.m_size)), m_array(std::move(other.m_array))
+    : m_size(other.m_size), m_array(std::move(other.m_array))
     {
-        other.m_size = 0;
+        other.m_size  = 0;
+        other.m_array = std::make_unique<char *[]>(1);
     }
 
     /// \param strings The strings to deep-copy.
     ///
     /// \exception std::bad_alloc if an internal allocation fails.
-    ///
-    /// \warning `TP_Container` not being a standard container of `std::string`s
-    ///          is undefined behavior.
     ///
     template <typename TP_Container>
     CStringArray(
@@ -73,7 +72,7 @@ public: // constructors
         std::vector<std::unique_ptr<char, void (*)(void *)>> tmp;
 
         tmp.reserve(m_size);
-        for (std::string const &string : strings) {
+        for (typename TP_Container::value_type const &string : strings) {
             char *const c_string = strdup(string.c_str());
 
             if (c_string == nullptr) {
@@ -87,7 +86,6 @@ public: // constructors
             m_array.get(),
             [](std::unique_ptr<char, void (*)(void *)> &ptr) { return ptr.release(); }
         );
-        m_array[m_size] = nullptr;
     }
 
 public: // destructor

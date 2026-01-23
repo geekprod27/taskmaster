@@ -72,7 +72,7 @@ LDFLAGS += $(strip \
 	-fsanitize=address \
 )
 else
-	CXXFLAGS += -O2
+CXXFLAGS += -O2
 endif
 
 #########################
