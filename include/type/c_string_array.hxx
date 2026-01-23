@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cstring>
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace taskmaster {
@@ -16,9 +15,7 @@ private: // fields
     std::unique_ptr<char *[]> m_array;
 
 public: // constructors
-    /// \exception std::bad_alloc if an internal allocation fails.
-    ///
-    CStringArray() : m_size(), m_array(std::make_unique<char *[]>(1)) {}
+    CStringArray() noexcept = default;
 
     /// \param other The `CStringArray` to deep-copy.
     ///
@@ -27,7 +24,7 @@ public: // constructors
     CStringArray(
         CStringArray const &other
     )
-    : m_size(other.m_size), m_array(std::make_unique<char *[]>(m_size + 1))
+    : m_size(other.m_size), m_array(m_size ? std::make_unique<char *[]>(m_size + 1) : nullptr)
     {
         std::vector<std::unique_ptr<char, void (*)(void *)>> tmp;
 
@@ -55,8 +52,7 @@ public: // constructors
     ) noexcept
     : m_size(other.m_size), m_array(std::move(other.m_array))
     {
-        other.m_size  = 0;
-        other.m_array = std::make_unique<char *[]>(1);
+        other.m_size = 0;
     }
 
     /// \param strings The strings to deep-copy.
@@ -67,7 +63,7 @@ public: // constructors
     CStringArray(
         TP_Container const &strings
     )
-    : m_size(strings.size()), m_array(std::make_unique<char *[]>(m_size + 1))
+    : m_size(strings.size()), m_array(m_size ? std::make_unique<char *[]>(m_size + 1) : nullptr)
     {
         std::vector<std::unique_ptr<char, void (*)(void *)>> tmp;
 
