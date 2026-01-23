@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstring>
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace taskmaster {
@@ -11,7 +12,7 @@ namespace taskmaster {
 class CStringArray
 {
 private: // fields
-    size_t                    m_size;
+    size_t                    m_size = 0;
     std::unique_ptr<char *[]> m_array;
 
 public: // constructors
@@ -50,10 +51,8 @@ public: // constructors
     CStringArray(
         CStringArray &&other
     ) noexcept
-    : m_size(other.m_size), m_array(std::move(other.m_array))
-    {
-        other.m_size = 0;
-    }
+    : m_size(std::exchange(other.m_size, 0)), m_array(std::move(other.m_array))
+    {}
 
     /// \param strings The strings to deep-copy.
     ///
