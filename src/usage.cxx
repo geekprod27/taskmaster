@@ -26,7 +26,7 @@ void print(
     char const *const program_name
 )
 {
-    return isatty(STDERR_FILENO) ? print_to_tty(program_name) : print_to_non_tty(program_name);
+    isatty(STDERR_FILENO) ? print_to_tty(program_name) : print_to_non_tty(program_name);
 }
 
 } // namespace taskmaster::usage
