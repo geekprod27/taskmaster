@@ -26,7 +26,7 @@ void print(
     char const *const error_message
 )
 {
-    return isatty(STDOUT_FILENO) ? print_to_tty(error_message) : print_to_non_tty(error_message);
+    return isatty(STDERR_FILENO) ? print_to_tty(error_message) : print_to_non_tty(error_message);
 }
 
 } // namespace taskmaster::error

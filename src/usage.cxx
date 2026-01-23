@@ -12,7 +12,7 @@ static inline void print_to_tty(
     char const *const program_name
 )
 {
-    cerr << PRETTY "Usage" SGR() << ": " << program_name << " configuration_file>\n";
+    cerr << PRETTY "Usage" SGR() << ": " << program_name << " <configuration_file>\n";
 }
 
 static inline void print_to_non_tty(
@@ -26,7 +26,7 @@ void print(
     char const *const program_name
 )
 {
-    return isatty(STDOUT_FILENO) ? print_to_tty(program_name) : print_to_non_tty(program_name);
+    return isatty(STDERR_FILENO) ? print_to_tty(program_name) : print_to_non_tty(program_name);
 }
 
 } // namespace taskmaster::usage

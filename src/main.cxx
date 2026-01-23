@@ -1,9 +1,6 @@
 #include "error.hxx"
 #include "run.hxx"
 #include "usage.hxx"
-#include <cstdlib>
-#include <sys/types.h>
-#include <unistd.h>
 
 int main(
     int const ac, char const *const *const av
@@ -12,7 +9,8 @@ int main(
     if (ac != 2) {
         taskmaster::error::print("invalid argument count");
         taskmaster::usage::print(av[0]);
-        exit(EXIT_FAILURE);
+        return 1;
     }
     taskmaster::run(av[0], av[1]);
+    return 0;
 }

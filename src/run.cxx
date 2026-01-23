@@ -1,11 +1,9 @@
 #include "type/program.hxx"
 #include "type/program_name.hxx"
-#include <cstdlib>
 #include <map>
 
 namespace taskmaster {
 
-[[noreturn]]
 void run(
     char const *const program_name __attribute__((unused)),
     char const *const configuration_file_path __attribute__((unused))
@@ -21,8 +19,6 @@ void run(
     // TODO: open the designated file and parse the configuration from it (TOML).
 
     // TODO: run the monitor with `programs` as argument.
-
-    exit(EXIT_SUCCESS);
 }
 
 } // namespace taskmaster
