@@ -3,77 +3,33 @@
 #include <cstring>
 #include <fcntl.h>
 #include <iostream>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <sys/stat.h>
 
 using namespace taskmaster;
 
-char **convert_map_string(
-    t_environment toConvert
+Process::Process(
+    ProgramRules const *program_rules
 )
 {
-    char **result = new char *[toConvert.size() + 1];
-
-    t_environment::iterator it;
-    int                     i = 0;
-    for (it = toConvert.begin(); it != toConvert.end(); it++) {
-        std::string tmp = it->first + "=" + it->second;
-        result[i]       = strdup(tmp.c_str());
-        i++;
-    }
-    result[toConvert.size()] = nullptr;
-
-    return result;
-}
-
-char **convert_vector_string(
-    std::vector<std::string> toConvert
-)
-{
-    char **result = new char *[toConvert.size() + 1];
-
-    for (size_t i = 0; i < toConvert.size(); i++) {
-        result[i] = strdup(toConvert[i].c_str());
-    }
-
-    result[toConvert.size()] = nullptr;
-
-    return result;
-}
-
-mode_t convert_perms(
-    t_file_permissions perms
-)
-{
-    return static_cast<mode_t>(
-        (static_cast<uint_fast8_t>(perms.user) << 6)
-        | (static_cast<uint_fast8_t>(perms.group) << 3)
-        | (static_cast<uint_fast8_t>(perms.others) << 0)
-    );
-}
-
-t_process start_process(
-    t_program_rules const *program_rules
-)
-{
-    pid_t c_pid = fork();
-    if (c_pid == -1) {
+    m_id = fork();
+    if (m_id == -1) {
         std::cerr << "fork error" << std::endl;
-        return {};
+        return;
     }
-    else if (c_pid == 0) {
-        mode_t old = umask(0);
+    else if (m_id == 0) {
+        mode_t    old   = umask(0);
         const int fdErr = open(
             program_rules->m_stderr_redirection_file.c_str(),
             O_WRONLY | O_CREAT | O_APPEND,
-            convert_perms(program_rules->m_permissions_on_new_files)
+            program_rules->m_permissions_on_new_files
         );
         const int fdOut = open(
             program_rules->m_stdout_redirection_file.c_str(),
             O_WRONLY | O_CREAT | O_APPEND,
-            convert_perms(program_rules->m_permissions_on_new_files)
+            program_rules->m_permissions_on_new_files
         );
         umask(old);
         if (fdErr <= 0 || fdOut <= 0) {
@@ -90,13 +46,14 @@ t_process start_process(
 
         execve(
             program_rules->m_start_command.m_path.c_str(),
-            convert_vector_string(program_rules->m_start_command.m_arguments),
-            convert_map_string(program_rules->m_environment)
+            program_rules->m_start_command.m_arguments,
+            program_rules->m_environment
         );
         exit(0);
     }
     else {
-        t_process process = {program_rules, c_pid, program_rules->m_how_many_restart_attempts};
-        return process;
+        m_restart_left = program_rules->m_how_many_restart_attempts;
+        m_started      = false;
     }
+    return;
 }
