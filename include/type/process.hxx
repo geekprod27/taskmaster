@@ -10,17 +10,13 @@ namespace taskmaster {
 class Process
 {
 public: // fields
-    pid_t const               m_id;
+    pid_t                     m_id;
+    uint_fast8_t              m_restart_left;
     std::optional<ExitStatus> m_exit_status;
+    bool                      m_started;
 
 public: // constructors
-    /// \param `id` is the identifier of the spawned child process.
-    ///
-    Process(
-        pid_t const id
-    )
-    : m_id(id)
-    {}
+    Process(ProgramRules const *rules);
 };
 
 } // namespace taskmaster

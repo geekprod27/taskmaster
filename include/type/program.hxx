@@ -13,14 +13,10 @@ private: // fields
     ProgramRules       m_rules;
     std::list<Process> m_processes;
 
-public: // constructors
-    /// \param `rules` is the set of rules to move as part of the new `Program` instance.
-    ///
-    Program(
-        ProgramRules &&rules
-    )
-    : m_rules(std::move(rules))
-    {}
+public:
+    Program(ProgramRules &&rules) : m_rules(std::move(rules));
+
+    void Start(void);
 };
 
 } // namespace taskmaster

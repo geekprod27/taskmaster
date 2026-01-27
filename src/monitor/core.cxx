@@ -1,33 +1,38 @@
 #include "type/process.hxx"
-#include "type/program_rules.hxx"
+#include "type/program.hxx"
 #include <iostream>
 #include <vector>
 
 using namespace taskmaster;
 
-t_process start_process(t_program_rules const *program_rules);
-
-void start_program(std::vector<t_process> *process, t_program_rules const *program_rules)
+void Program::Start(
+    void
+)
 {
-    for (size_t i = 0; i < program_rules->m_how_many_processes; i++) {
-        t_process tmp;
-        
-        tmp = start_process(program_rules);
-        if (tmp.m_pid != 0)
-        {
-            process->push_back(tmp);
+    for (size_t i = 0; i < m_rules.m_how_many_processes; i++) {
+        Process tmp(&m_rules);
+
+        if (tmp.m_id != 0) {
+            m_processes.push_back(tmp);
         }
     }
 }
 
-
-void monitor_programs(std::vector<t_program_rules> const &program_rules) 
+void start_programs(
+    std::map<std::string, Program> progs
+)
 {
-    std::vector<t_process> process;
-    for (size_t i = 0; i < program_rules.size(); i++) {
-        if (program_rules[i].m_must_be_started_at_launch)
-        {
-            start_program(&process, &program_rules[i]);
-        }
+    for (std::map<std::string, Program>::iterator it = progs.begin(); it != progs.end(); ++it) {
+        it->second.Start();
+    }
+}
+
+void monitor_programs(
+    std::map<std::string, Program> progs
+)
+{
+    start_programs(progs);
+    while (true) {
+        // Monitoring logic would go here
     }
 }
