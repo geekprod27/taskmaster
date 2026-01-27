@@ -22,7 +22,7 @@ DIR_ELF := elf
 #########
 # FILES #
 #########
-SRC := \
+SRC := $(strip \
 	$(addprefix $(DIR_SRC)/, \
 		$(addsuffix .cxx, \
 			$(addprefix monitor/, \
@@ -34,10 +34,13 @@ SRC := \
 			$(addprefix prompt/, \
 				core \
 			) \
+			error \
 			main \
+			run \
+			usage \
 		) \
 	) \
-
+)
 OBJ := $(patsubst $(DIR_SRC)/%,$(DIR_OBJ)/%,$(SRC:.cxx=.o))
 DEP := $(patsubst $(DIR_SRC)/%,$(DIR_OBJ)/%,$(SRC:.cxx=.d))
 ELF := $(DIR_ELF)/$(NAME).elf
@@ -45,16 +48,32 @@ ELF := $(DIR_ELF)/$(NAME).elf
 #########
 # FLAGS #
 #########
-CPPFLAGS := \
+CPPFLAGS := $(strip \
 	-I $(DIR_INC) \
 	-MMD \
 	-MP \
-
-CXXFLAGS := \
+)
+CXXFLAGS := $(strip \
 	-Wall \
 	-Wextra \
+	-Wunreachable-code \
+	-ferror-limit=1 \
+)
+LDFLAGS := $(strip \
+)
 
-LDFLAGS := \
+ifeq ($(DEBUG),1)
+CXXFLAGS += $(strip \
+	-fsanitize=address \
+	-g \
+	-O0 \
+)
+LDFLAGS += $(strip \
+	-fsanitize=address \
+)
+else
+CXXFLAGS += -O2
+endif
 
 #########################
 # ANSI ESCAPE SEQUENCES #
