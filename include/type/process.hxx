@@ -2,6 +2,7 @@
 #define TYPE_PROCESS_HXX
 
 #include "type/exit_status.hxx"
+#include "type/program_rules.hxx"
 #include <optional>
 #include <sys/types.h>
 

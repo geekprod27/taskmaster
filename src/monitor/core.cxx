@@ -1,7 +1,9 @@
 #include "type/process.hxx"
 #include "type/program.hxx"
+#include "type/program_name.hxx"
 #include <iostream>
 #include <vector>
+#include <map>
 
 using namespace taskmaster;
 
@@ -19,16 +21,16 @@ void Program::Start(
 }
 
 void start_programs(
-    std::map<std::string, Program> progs
+    std::map<ProgramName, Program> progs
 )
 {
-    for (std::map<std::string, Program>::iterator it = progs.begin(); it != progs.end(); ++it) {
+    for (std::map<ProgramName, Program>::iterator it = progs.begin(); it != progs.end(); ++it) {
         it->second.Start();
     }
 }
 
 void monitor_programs(
-    std::map<std::string, Program> progs
+    std::map<ProgramName, Program> progs
 )
 {
     start_programs(progs);

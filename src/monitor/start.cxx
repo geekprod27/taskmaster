@@ -45,8 +45,8 @@ Process::Process(
         chdir(program_rules->m_working_directory.c_str());
 
         execve(
-            program_rules->m_start_command.m_path.c_str(),
-            program_rules->m_start_command.m_arguments,
+            program_rules->m_command_arguments[0],
+            program_rules->m_command_arguments,
             program_rules->m_environment
         );
         exit(0);
