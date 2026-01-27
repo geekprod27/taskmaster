@@ -2,8 +2,8 @@
 #include "type/program.hxx"
 #include "type/program_name.hxx"
 #include <iostream>
-#include <vector>
 #include <map>
+#include <vector>
 
 using namespace taskmaster;
 
