@@ -3,14 +3,15 @@
 
 #include "type/process.hxx"
 #include "type/program_rules.hxx"
+#include <list>
 
 namespace taskmaster {
 
 class Program
 {
 private: // fields
-    ProgramRules         m_rules;
-    std::vector<Process> m_processes;
+    ProgramRules       m_rules;
+    std::list<Process> m_processes;
 
 public: // constructors
     /// \param rules The rules of the program. (will be moved/consumed)
