@@ -27,6 +27,7 @@ SRC := $(strip \
 		$(addsuffix .cxx, \
 			$(addprefix monitor/, \
 				core \
+				start \
 			) \
 			$(addprefix parser/, \
 				core \
