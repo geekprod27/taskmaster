@@ -22,7 +22,7 @@ public: // constructors
     : m_rules(std::move(rules))
     {}
 
-    void Start(void);
+    void start(void);
 };
 
 } // namespace taskmaster

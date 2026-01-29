@@ -7,25 +7,12 @@
 
 using namespace taskmaster;
 
-void Program::Start(
-    void
-)
-{
-    for (size_t i = 0; i < m_rules.m_how_many_processes; i++) {
-        Process tmp(&m_rules);
-
-        if (tmp.m_id != 0) {
-            m_processes.push_back(tmp);
-        }
-    }
-}
-
 void start_programs(
     std::map<ProgramName, Program> progs
 )
 {
     for (std::map<ProgramName, Program>::iterator it = progs.begin(); it != progs.end(); ++it) {
-        it->second.Start();
+        it->second.start();
     }
 }
 
