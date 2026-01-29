@@ -17,7 +17,7 @@ public: // fields
     bool                      m_started;
 
 public: // constructors
-    Process(ProgramRules const *rules);
+    Process(ProcessRules const *rules);
 };
 
 } // namespace taskmaster
