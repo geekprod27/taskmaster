@@ -12,7 +12,7 @@ class Process
 {
 public: // fields
     pid_t                     m_id;
-    uint_fast8_t              m_restart_left;
+    RestartAttemptCounter     m_restart_left;
     std::optional<ExitStatus> m_exit_status;
     bool                      m_started;
 

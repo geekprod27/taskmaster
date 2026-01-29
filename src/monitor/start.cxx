@@ -37,19 +37,28 @@ Process::Process(
             exit(1);
         }
 
-        dup2(fdOut, STDOUT_FILENO);
+        if (dup2(fdOut, STDOUT_FILENO) == -1) {
+            std::cerr << "dup2 stdout fail" << std::endl;
+            exit(1);
+        }
         close(fdOut);
-        dup2(fdErr, STDERR_FILENO);
+        if (dup2(fdErr, STDERR_FILENO) == -1) {
+            std::cerr << "dup2 stderr fail" << std::endl;
+            exit(1);
+        }
         close(fdErr);
 
-        chdir(program_rules->m_working_directory.c_str());
+        if (chdir(program_rules->m_working_directory.c_str()) == -1) {
+            std::cerr << "chdir fail" << std::endl;
+            exit(1);
+        }
 
         execve(
             program_rules->m_command_arguments[0],
             program_rules->m_command_arguments,
             program_rules->m_environment
         );
-        exit(0);
+        exit(1);
     }
     else {
         m_restart_left = program_rules->m_how_many_restart_attempts;
