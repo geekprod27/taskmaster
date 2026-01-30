@@ -11,7 +11,7 @@ namespace taskmaster {
 class Process
 {
 public: // fields
-    pid_t                     m_id;
+    pid_t const               m_id;
     RestartAttemptCounter     m_restart_left;
     std::optional<ExitStatus> m_exit_status;
     bool                      m_started;
