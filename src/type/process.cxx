@@ -13,16 +13,15 @@ namespace taskmaster {
 Process::Process(
     ProcessRules const *process_rules
 )
-: m_restart_left(process_rules->m_how_many_restart_attempts), m_started(false)
+: m_id(fork()), m_restart_left(process_rules->m_how_many_restart_attempts), m_started(false)
 {
-    m_id = fork();
     if (m_id == -1) {
         std::cerr << "fork error" << std::endl;
         return;
     }
     if (m_id == 0) {
-        mode_t const    old   = umask(0);
-        const int fd_err = open(
+        mode_t const old    = umask(0);
+        const int    fd_err = open(
             process_rules->m_stderr_redirection_file.c_str(),
             O_WRONLY | O_CREAT | O_APPEND,
             process_rules->m_permissions_on_new_files
