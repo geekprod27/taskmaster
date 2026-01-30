@@ -21,6 +21,8 @@ public: // constructors
     )
     : m_rules(std::move(rules))
     {}
+
+    void start();
 };
 
 } // namespace taskmaster
