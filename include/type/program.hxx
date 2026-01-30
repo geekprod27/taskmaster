@@ -16,7 +16,7 @@ private: // fields
 public:
     Program(ProgramRules &&rules) : m_rules(std::move(rules));
 
-    void start(void);
+    void start();
 };
 
 } // namespace taskmaster
