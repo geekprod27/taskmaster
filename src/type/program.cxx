@@ -1,10 +1,8 @@
 #include "type/program.hxx"
 
-using namespace taskmaster;
+namespace taskmaster {
 
-void Program::start(
-    void
-)
+void Program::start()
 {
     for (size_t i = 0; i < m_rules.m_how_many_processes; i++) {
         Process tmp(&m_rules.m_process_rules);
@@ -14,3 +12,5 @@ void Program::start(
         }
     }
 }
+
+} // namespace taskmaster

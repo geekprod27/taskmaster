@@ -1,14 +1,12 @@
-#include "type/process.hxx"
 #include "type/program.hxx"
 #include "type/program_name.hxx"
 #include <iostream>
 #include <map>
-#include <vector>
 
-using namespace taskmaster;
+namespace taskmaster {
 
 void start_programs(
-    std::map<ProgramName, Program> progs
+    std::map<ProgramName, Program> &progs
 )
 {
     for (std::map<ProgramName, Program>::iterator it = progs.begin(); it != progs.end(); ++it) {
@@ -17,7 +15,7 @@ void start_programs(
 }
 
 void monitor_programs(
-    std::map<ProgramName, Program> progs
+    std::map<ProgramName, Program> &progs
 )
 {
     start_programs(progs);
@@ -25,3 +23,5 @@ void monitor_programs(
         // Monitoring logic would go here
     }
 }
+
+} // namespace taskmaster
