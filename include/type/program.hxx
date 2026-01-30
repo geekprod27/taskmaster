@@ -14,7 +14,7 @@ private: // fields
     std::list<Process> m_processes;
 
 public: // constructors
-    /// \param rules The rules of the program. (will be moved/consumed)
+    /// \param rules The program rules to move as part of the new `Program` instance.
     ///
     Program(
         ProgramRules &&rules
