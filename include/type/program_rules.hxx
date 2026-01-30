@@ -8,6 +8,7 @@
 #include "type/restart_on_exit_rule.hxx"
 #include "type/signal.hxx"
 #include <filesystem>
+#include <vector>
 
 namespace taskmaster {
 
