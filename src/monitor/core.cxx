@@ -6,19 +6,19 @@
 namespace taskmaster {
 
 void start_programs(
-    std::map<ProgramName, Program> &progs
+    std::map<ProgramName, Program> &programs
 )
 {
-    for (std::map<ProgramName, Program>::iterator it = progs.begin(); it != progs.end(); ++it) {
-        it->second.start();
+    for (auto &[program_name, program] : programs) {
+        program.start();
     }
 }
 
-void monitor_programs(
-    std::map<ProgramName, Program> &progs
+void start_and_monitor_programs(
+    std::map<ProgramName, Program> &programs
 )
 {
-    start_programs(progs);
+    start_programs(programs);
     while (true) {
         // Monitoring logic would go here
     }
