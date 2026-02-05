@@ -5,6 +5,8 @@
 #include "type/program_rules.hxx"
 #include <list>
 
+#define FAIL_FORK_THROW 4
+
 namespace taskmaster {
 
 class Program

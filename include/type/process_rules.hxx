@@ -1,6 +1,7 @@
 #ifndef TYPE_PROCESS_RULES_HXX
 #define TYPE_PROCESS_RULES_HXX
 
+#include "type/c_string_array.hxx"
 #include "type/restart_attempt_counter.hxx"
 #include <filesystem>
 

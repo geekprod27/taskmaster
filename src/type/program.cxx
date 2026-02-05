@@ -20,18 +20,25 @@ namespace taskmaster {
 void Program::start()
 {
     uint_fast8_t fail = 0;
+
     for (size_t i = 0; i < m_rules.m_how_many_processes; i++) {
         try {
-            m_processes.emplace_back(&m_rules.m_process_rules);
+            m_processes.emplace_back(m_rules.m_process_rules);
         }
-        catch (std::system_error &e) {
+        catch (std::system_error const &e) {
             fail++;
             i--;
-            if (fail >= 4) {
-                throw std::system_error();
+            if (fail >= FAIL_FORK_THROW) {
+                throw;
             }
         }
     }
 }
+
+Program::Program(
+    ProgramRules &&rules
+)
+: m_rules(std::move(rules))
+{}
 
 } // namespace taskmaster
