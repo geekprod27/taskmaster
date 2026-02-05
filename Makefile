@@ -34,7 +34,7 @@ SRC := $(strip \
 			$(addprefix prompt/, \
 				core \
 			) \
-			$(addprefix type/, \
+			$(addprefix method/, \
 				c_string_array \
 			) \
 			error \
@@ -142,7 +142,7 @@ SET_BACKGROUND_BRIGHT_WHITE   := \e[107m
 # FUNCTIONS #
 #############
 FWIDTH_OF_STEP       := 9
-FWIDTH_OF_COMPLEMENT := 28
+FWIDTH_OF_COMPLEMENT := 30
 
 define ANNOUNCE_LINKAGE_PROGRESS
 	printf '%$(FWIDTH_OF_STEP)s $(SET_BOLD)$(SET_FOREGROUND_BRIGHT_BLUE)%-$(FWIDTH_OF_COMPLEMENT)s$(RESET_GRAPHICS)' \

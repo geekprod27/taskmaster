@@ -1,4 +1,5 @@
 #include "type/c_string_array.hxx"
+#include <cstring>
 #include <utility>
 
 namespace taskmaster {
@@ -6,7 +7,7 @@ namespace taskmaster {
 CStringArray::CStringArray(
     CStringArray const &other
 )
-: m_size(other.m_size), m_array(m_size ? std::make_unique<char *[]>(m_size + 1) : nullptr)
+: m_size(other.m_size), m_array(std::make_unique<char *[]>(m_size + 1))
 {
     std::vector<std::unique_ptr<char, void (*)(void *)>> tmp;
 
