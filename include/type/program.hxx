@@ -5,6 +5,8 @@
 #include "type/program_rules.hxx"
 #include <list>
 
+#define FAIL_FORK_THROW 4
+
 namespace taskmaster {
 
 class Program
@@ -16,11 +18,7 @@ private: // fields
 public: // constructors
     /// \param rules The rules of the program. (will be moved/consumed)
     ///
-    Program(
-        ProgramRules &&rules
-    )
-    : m_rules(std::move(rules))
-    {}
+    Program(ProgramRules &&rules);
 
     void start();
 };

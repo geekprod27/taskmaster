@@ -2,7 +2,7 @@
 #define TYPE_PROCESS_HXX
 
 #include "type/exit_status.hxx"
-#include "type/program_rules.hxx"
+#include "type/process_rules.hxx"
 #include <optional>
 #include <sys/types.h>
 
@@ -17,7 +17,7 @@ public: // fields
     bool                      m_started;
 
 public: // constructors
-    Process(ProcessRules const *rules);
+    Process(ProcessRules const &rules);
 };
 
 } // namespace taskmaster
