@@ -61,6 +61,7 @@ CXXFLAGS := $(strip \
 	-Wextra \
 	-Wunreachable-code \
 	-ferror-limit=1 \
+	-std=c++23 \
 )
 LDFLAGS := $(strip \
 )

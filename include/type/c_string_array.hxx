@@ -8,25 +8,31 @@ namespace taskmaster {
 class CStringArray
 {
 private: // fields
-    size_t                    m_size = 0;
-    std::unique_ptr<char *[]> m_array;
+    size_t                    m_size  = 0;
+    std::unique_ptr<char *[]> m_array = std::make_unique<char *[]>(m_size + 1);
 
 public: // constructors
-    CStringArray() noexcept = default;
-
-    /// \param other The `CStringArray` to deep-copy.
+    /// \throw `std::bad_alloc` on `std::make_unique` failure.
     ///
-    /// \exception std::bad_alloc if an internal allocation fails.
+    CStringArray();
+
+    /// \param `other` is the `CStringArray` to deep-copy.
+    ///
+    /// \throw `std::bad_alloc` on `std::make_unique` failure.
+    /// \throw `std::bad_alloc` on `strdup` failure.
     ///
     CStringArray(CStringArray const &other);
 
-    /// \param other The `CStringArray` to move.
+    /// \param `other` is the `CStringArray` to move.
     ///
     CStringArray(CStringArray &&other) noexcept;
 
-    /// \param strings The strings to deep-copy.
+    /// \param `strings` is the set of strings to deep-copy.
     ///
-    /// \exception std::bad_alloc if an internal allocation fails.
+    /// \throw `std::bad_alloc` on `std::make_unique` failure.
+    /// \throw `std::bad_alloc` on `std::vector::reserve` failure.
+    /// \throw `std::bad_alloc` on `strdup` failure.
+    /// \throw `std::length_error` on `std::vector::reserve` failure.
     ///
     template <typename TP_Container>
     CStringArray(TP_Container const &strings);
@@ -35,18 +41,18 @@ public: // destructor
     ~CStringArray() noexcept;
 
 private: // methods
-    /// \param other The `CStringArray` to deep-copy.
+    /// \param `other` is the `CStringArray` to deep-copy.
     ///
     CStringArray &assign(CStringArray other) noexcept;
 
 public: // operators
-    /// \param rhs The `CStringArray` to deep-copy.
+    /// \param `rhs` is the `CStringArray` to deep-copy.
     ///
-    /// \exception std::bad_alloc if the allocation of the new CStringArray instance fails.
+    /// \throw `std::bad_alloc` on `CStringArray(rhs)` failure.
     ///
     CStringArray &operator=(CStringArray const &rhs);
 
-    /// \param rhs The `CStringArray` to move.
+    /// \param `rhs` is the `CStringArray` to move.
     ///
     CStringArray &operator=(CStringArray &&rhs) noexcept;
 

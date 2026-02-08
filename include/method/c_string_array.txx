@@ -1,8 +1,8 @@
 #ifndef METHOD_C_STRING_ARRAY_TXX
 #define METHOD_C_STRING_ARRAY_TXX
 
-#include <algorithm>
 #include <cstring>
+#include <ranges>
 #include <vector>
 
 namespace taskmaster {
@@ -11,7 +11,7 @@ template <typename TP_Container>
 CStringArray::CStringArray(
     TP_Container const &strings
 )
-: m_size(strings.size()), m_array(m_size ? std::make_unique<char *[]>(m_size + 1) : nullptr)
+: m_size(strings.size())
 {
     std::vector<std::unique_ptr<char, void (*)(void *)>> tmp;
 
@@ -24,11 +24,10 @@ CStringArray::CStringArray(
         }
         tmp.emplace_back(c_string, free);
     }
-    *std::transform(
-        tmp.begin(), tmp.end(), m_array.get(), [](std::unique_ptr<char, void (*)(void *)> &ptr) {
-            return ptr.release();
-        }
-    ) = nullptr;
+    for (auto &&[dst, src] : std::ranges::views::zip(std::span{m_array.get(), m_size}, tmp)) {
+        dst = src.release();
+    }
+    m_array[m_size] = nullptr;
 }
 
 } // namespace taskmaster

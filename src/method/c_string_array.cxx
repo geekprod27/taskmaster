@@ -1,30 +1,30 @@
 #include "type/c_string_array.hxx"
-#include <cstring>
-#include <utility>
+#include <algorithm>
 
 namespace taskmaster {
+
+CStringArray::CStringArray() { m_array[0] = nullptr; }
 
 CStringArray::CStringArray(
     CStringArray const &other
 )
-: m_size(other.m_size), m_array(std::make_unique<char *[]>(m_size + 1))
+: m_size(other.m_size)
 {
     std::vector<std::unique_ptr<char, void (*)(void *)>> tmp;
 
     tmp.reserve(m_size);
-    for (size_t i = 0; i < m_size; ++i) {
-        char *const c_string = strdup(other.m_array[i]);
+    for (char const *const other_c_string : std::span{other.m_array.get(), m_size}) {
+        char *const c_string = strdup(other_c_string);
 
         if (c_string == nullptr) {
             throw std::bad_alloc();
         }
         tmp.emplace_back(c_string, free);
     }
-    *std::transform(
-        tmp.begin(), tmp.end(), m_array.get(), [](std::unique_ptr<char, void (*)(void *)> &ptr) {
-            return ptr.release();
-        }
-    ) = nullptr;
+    for (auto &&[dst, src] : std::ranges::views::zip(std::span{m_array.get(), m_size}, tmp)) {
+        dst = src.release();
+    }
+    m_array[m_size] = nullptr;
 }
 
 CStringArray::CStringArray(

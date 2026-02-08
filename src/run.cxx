@@ -5,8 +5,8 @@
 namespace taskmaster {
 
 void run(
-    char const *const program_name __attribute__((unused)),
-    char const *const configuration_file_path __attribute__((unused))
+    __attribute__((unused)) char const *const program_name,
+    __attribute__((unused)) char const *const configuration_file_path
 )
 {
     std::map<ProgramName, Program> programs;
