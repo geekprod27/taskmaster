@@ -20,7 +20,9 @@ public: // constructors
     /// \param `other` is the `CStringArray` to deep-copy.
     ///
     /// \throw `std::bad_alloc` on `std::make_unique` failure.
+    /// \throw `std::bad_alloc` on `std::vector::reserve` failure.
     /// \throw `std::bad_alloc` on `strdup` failure.
+    /// \throw `std::length_error` on `std::vector::reserve` failure.
     ///
     CStringArray(CStringArray const &other);
 
