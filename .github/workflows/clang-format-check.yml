@@ -30,7 +30,7 @@ jobs:
 
       - name: Run clang-format check
         run: |
-          FILES=$(git ls-files '*.cxx' '*.hxx')
+          FILES=$(git ls-files '*.cxx' '*.hxx' '*.txx')
 
           if [ -z "$FILES" ]; then
             echo "no file to check."
@@ -38,7 +38,7 @@ jobs:
           fi
 
           clang-format -i $FILES
-          
+
           # If file change -> error
           if ! git diff --exit-code; then
             echo "::error::Format error."
