@@ -1,5 +1,10 @@
 #include "type/c_string_array.hxx"
 #include <algorithm>
+#include <memory>
+#include <ranges>
+#include <span>
+#include <utility>
+#include <vector>
 
 namespace taskmaster {
 

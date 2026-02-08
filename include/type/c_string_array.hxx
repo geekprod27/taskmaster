@@ -1,6 +1,7 @@
 #ifndef TYPE_C_STRING_ARRAY_HXX
 #define TYPE_C_STRING_ARRAY_HXX
 
+#include <cstddef>
 #include <memory>
 
 namespace taskmaster {

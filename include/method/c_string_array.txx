@@ -1,8 +1,13 @@
 #ifndef METHOD_C_STRING_ARRAY_TXX
 #define METHOD_C_STRING_ARRAY_TXX
 
+#include "type/c_string_array.hxx"
+#include <cstdlib>
 #include <cstring>
+#include <memory>
+#include <new>
 #include <ranges>
+#include <span>
 #include <vector>
 
 namespace taskmaster {
