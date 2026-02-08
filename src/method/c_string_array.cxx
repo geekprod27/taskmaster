@@ -1,8 +1,10 @@
 #include "type/c_string_array.hxx"
 #include <algorithm>
+#include <cstdlib>
 #include <memory>
 #include <ranges>
 #include <span>
+#include <string.h>
 #include <utility>
 #include <vector>
 
