@@ -34,6 +34,9 @@ SRC := $(strip \
 			$(addprefix prompt/, \
 				core \
 			) \
+			$(addprefix method/, \
+				c_string_array \
+			) \
 			error \
 			main \
 			run \
@@ -58,6 +61,7 @@ CXXFLAGS := $(strip \
 	-Wextra \
 	-Wunreachable-code \
 	-ferror-limit=1 \
+	-std=c++23 \
 )
 LDFLAGS := $(strip \
 )
@@ -139,7 +143,7 @@ SET_BACKGROUND_BRIGHT_WHITE   := \e[107m
 # FUNCTIONS #
 #############
 FWIDTH_OF_STEP       := 9
-FWIDTH_OF_COMPLEMENT := 21
+FWIDTH_OF_COMPLEMENT := 30
 
 define ANNOUNCE_LINKAGE_PROGRESS
 	printf '%$(FWIDTH_OF_STEP)s $(SET_BOLD)$(SET_FOREGROUND_BRIGHT_BLUE)%-$(FWIDTH_OF_COMPLEMENT)s$(RESET_GRAPHICS)' \
