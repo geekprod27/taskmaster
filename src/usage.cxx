@@ -8,6 +8,10 @@ using std::cerr;
 
 namespace taskmaster::usage {
 
+/// \param program_name The name of the program (usually argv[0]).
+///
+/// \warning `program_name` not being a valid C string is undefined behavior.
+///
 static inline void print_to_tty(
     char const *const program_name
 )
@@ -15,6 +19,10 @@ static inline void print_to_tty(
     cerr << PRETTY "Usage" SGR() << ": " << program_name << " <configuration_file>\n";
 }
 
+/// \param program_name The name of the program (usually argv[0]).
+///
+/// \warning `program_name` not being a valid C string is undefined behavior.
+///
 static inline void print_to_non_tty(
     char const *const program_name
 )
@@ -22,6 +30,10 @@ static inline void print_to_non_tty(
     cerr << "Usage: " << program_name << " <configuration_file>\n";
 }
 
+/// \param program_name The name of the program (usually argv[0]).
+///
+/// \warning `program_name` not being a valid C string is undefined behavior.
+///
 void print(
     char const *const program_name
 )
