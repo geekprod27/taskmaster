@@ -25,10 +25,6 @@ DIR_ELF := elf
 SRC := $(strip \
 	$(addprefix $(DIR_SRC)/, \
 		$(addsuffix .cxx, \
-			$(addprefix type/, \
-				process \
-				program \
-			) \
 			$(addprefix monitor/, \
 				core \
 			) \
@@ -37,6 +33,10 @@ SRC := $(strip \
 			) \
 			$(addprefix prompt/, \
 				core \
+			) \
+			$(addprefix type/, \
+				process \
+				program \
 			) \
 			error \
 			main \

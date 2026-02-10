@@ -8,19 +8,18 @@ using std::cerr;
 
 namespace taskmaster {
 
-/**
- * @brief Constructs a Process and initializes its execution environment.
- *
- * Changes the current working directory to the one specified in
- * `ProcessRules`, then sets up standard output and standard error
- * redirection as defined by the rules.
- *
- * @param rules Configuration rules for the process, including
- *        working directory and I/O redirection.
- *
- * @throw std::system_error
- *        If the call to `fork()` fails.
- */
+///  Constructs a Process and initializes its execution environment.
+///
+/// Changes the current working directory to the one specified in
+/// `ProcessRules`, then sets up standard output and standard error
+/// redirection as defined by the rules.
+///
+/// \param rules Configuration rules for the process, including
+///        working directory and I/O redirection.
+///
+/// \throw std::system_error
+///        If the call to `fork()` fails.
+///
 Process::Process(
     ProcessRules const &process_rules
 )

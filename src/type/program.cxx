@@ -2,21 +2,16 @@
 
 namespace taskmaster {
 
-/**
- * @brief Spawns the required number of processes.
- *
- * Creates child processes according to the value of
- * `m_rules.m_how_many_processes`.
- * Information about each successfully created process
- * is stored in the `m_processes` list.
- *
- * The method retries process creation on failure. If
- * `fork()` fails repeatedly, a `std::system_error`
- * exception is thrown.
- *
- * @throw std::system_error
- *        If `fork()` fails after multiple attempts.
- */
+/// Spawns the required number of processes.
+///
+/// Creates child processes according to the value of
+/// `m_rules.m_how_many_processes`.
+/// Information about each successfully created process
+/// is stored in the `m_processes` list.
+///
+/// \throw std::system_error
+/// If `fork()` fails after multiple attempts.
+///
 void Program::start()
 {
     uint_fast8_t fail = 0;
@@ -27,10 +22,10 @@ void Program::start()
         }
         catch (std::system_error const &e) {
             fail++;
-            i--;
             if (fail >= FAIL_FORK_THROW) {
                 throw;
             }
+            i--;
         }
     }
 }
