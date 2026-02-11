@@ -7,7 +7,10 @@
 #include "type/restart_attempt_counter.hxx"
 #include "type/restart_on_exit_rule.hxx"
 #include "type/signal.hxx"
+#include <chrono>
 #include <filesystem>
+#include <sys/types.h>
+#include <vector>
 
 namespace taskmaster {
 

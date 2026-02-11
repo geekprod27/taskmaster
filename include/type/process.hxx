@@ -14,6 +14,8 @@ public: // fields
     std::optional<ExitStatus> m_exit_status;
 
 public: // constructors
+    /// \param `id` is the identifier of the spawned child process.
+    ///
     Process(
         pid_t const id
     )
