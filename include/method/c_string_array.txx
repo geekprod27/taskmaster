@@ -12,12 +12,12 @@
 
 namespace taskmaster {
 
-/// \param `strings` is the set of strings to deep-copy.
+/// \param strings is the set of strings to deep-copy.
 ///
-/// \throw `std::bad_alloc` on `std::make_unique` failure.
-/// \throw `std::bad_alloc` on `std::vector::reserve` failure.
-/// \throw `std::bad_alloc` on `strdup` failure.
-/// \throw `std::length_error` on `std::vector::reserve` failure.
+/// \throw std::bad_alloc    on `std::make_unique`     failure.
+/// \throw std::bad_alloc    on `std::vector::reserve` failure.
+/// \throw std::bad_alloc    on `strdup`               failure.
+/// \throw std::length_error on `std::vector::reserve` failure.
 ///
 template <typename TP_Container>
 CStringArray::CStringArray(

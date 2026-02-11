@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
+#include <new>
 #include <ranges>
 #include <span>
 #include <string.h>
@@ -10,16 +11,16 @@
 
 namespace taskmaster {
 
-/// \throw `std::bad_alloc` on `std::make_unique` failure.
+/// \throw std::bad_alloc on `std::make_unique` failure.
 ///
 CStringArray::CStringArray() { m_array[0] = nullptr; }
 
-/// \param `other` is the `CStringArray` to deep-copy.
+/// \param other is the `CStringArray` to deep-copy.
 ///
-/// \throw `std::bad_alloc` on `std::make_unique` failure.
-/// \throw `std::bad_alloc` on `std::vector::reserve` failure.
-/// \throw `std::bad_alloc` on `strdup` failure.
-/// \throw `std::length_error` on `std::vector::reserve` failure.
+/// \throw std::bad_alloc    on `std::make_unique`     failure.
+/// \throw std::bad_alloc    on `std::vector::reserve` failure.
+/// \throw std::bad_alloc    on `strdup`               failure.
+/// \throw std::length_error on `std::vector::reserve` failure.
 ///
 CStringArray::CStringArray(
     CStringArray const &other
@@ -43,7 +44,7 @@ CStringArray::CStringArray(
     m_array[m_size] = nullptr;
 }
 
-/// \param `other` is the `CStringArray` to move.
+/// \param other is the `CStringArray` to move.
 ///
 CStringArray::CStringArray(
     CStringArray &&other
@@ -56,7 +57,7 @@ CStringArray::~CStringArray() noexcept
     std::for_each(m_array.get(), m_array.get() + m_size, free);
 }
 
-/// \param `other` is the `CStringArray` to deep-copy.
+/// \param other is the `CStringArray` to deep-copy.
 ///
 CStringArray &CStringArray::assign(
     CStringArray other
@@ -67,9 +68,9 @@ CStringArray &CStringArray::assign(
     return *this;
 }
 
-/// \param `rhs` is the `CStringArray` to deep-copy.
+/// \param rhs is the `CStringArray` to deep-copy.
 ///
-/// \throw `std::bad_alloc` on `CStringArray(rhs)` failure.
+/// \throw std::bad_alloc on `CStringArray(rhs)` failure.
 ///
 CStringArray &CStringArray::operator=(
     CStringArray const &rhs
@@ -78,7 +79,7 @@ CStringArray &CStringArray::operator=(
     return assign(rhs);
 }
 
-/// \param `rhs` is the `CStringArray` to move.
+/// \param rhs is the `CStringArray` to move.
 ///
 CStringArray &CStringArray::operator=(
     CStringArray &&rhs

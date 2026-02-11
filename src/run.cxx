@@ -4,9 +4,9 @@
 
 namespace taskmaster {
 
-/// \param program_name The name of the program (usually argv[0]).
+/// \param program_name is the name of the program (usually `argv[0]`).
 ///
-/// \param configuration_file_path The path to the configuration file.
+/// \param configuration_file_path is the path to the configuration file.
 ///
 /// \warning `program_name` not being a valid C string is undefined behavior.
 ///
