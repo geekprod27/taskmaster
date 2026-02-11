@@ -13,8 +13,8 @@ namespace taskmaster {
 /// \warning `configuration_file_path` not being a valid C string is undefined behavior.
 ///
 void run(
-    __attribute__((unused)) char const *const program_name,
-    __attribute__((unused)) char const *const configuration_file_path
+    [[maybe_unused]] char const *const program_name,
+    [[maybe_unused]] char const *const configuration_file_path
 )
 {
     std::map<ProgramName, Program> programs;
