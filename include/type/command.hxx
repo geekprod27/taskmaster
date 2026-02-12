@@ -8,7 +8,7 @@
 namespace taskmaster {
 
 using t_command = struct {
-    t_absolute_path            m_path;
+    t_absolute_path          m_path;
     std::vector<std::string> m_arguments;
 };
 

@@ -1,9 +1,9 @@
 #include "type/process.hxx"
+#include "error.hxx"
 #include <fcntl.h>
 #include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "error.hxx"
 
 using std::cerr;
 
