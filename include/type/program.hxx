@@ -16,7 +16,7 @@ private: // fields
     std::list<Process> m_processes;
 
 public:
-    Program(ProgramRules &&rules) : m_rules(std::move(rules));
+    Program(ProgramRules &&rules);
 
     void start();
 };

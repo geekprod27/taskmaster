@@ -3,18 +3,19 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "error.hxx"
 
 using std::cerr;
 
 namespace taskmaster {
 
-///  Constructs a Process and initializes its execution environment.
+///  \brief Constructs a Process and initializes its execution environment.
 ///
 /// Changes the current working directory to the one specified in
 /// `ProcessRules`, then sets up standard output and standard error
 /// redirection as defined by the rules.
 ///
-/// \param rules Configuration rules for the process, including
+/// \param process_rules Configuration rules for the process, including
 ///        working directory and I/O redirection.
 ///
 /// \throw std::system_error
@@ -32,6 +33,7 @@ Process::Process(
         return;
     }
     umask(0); // ensures the file is created with 777 permissions (otherwise 775).
+
     const int fd_err = open(
         process_rules.m_stderr_redirection_file.c_str(),
         O_WRONLY | O_CREAT | O_APPEND,
@@ -50,26 +52,26 @@ Process::Process(
         if (fd_out > 0) {
             close(fd_out);
         }
-        cerr << "open fail" << std::endl;
+        taskmaster::error::print("open fail");
         exit(EXIT_FAILURE);
     }
 
     if (dup2(fd_out, STDOUT_FILENO) == -1) {
         close(fd_out);
         close(fd_err);
-        cerr << "dup2 stdout fail" << std::endl;
+        taskmaster::error::print("dup2 stdout fail");
         exit(EXIT_FAILURE);
     }
     close(fd_out);
     if (dup2(fd_err, STDERR_FILENO) == -1) {
         close(fd_err);
-        cerr << "dup2 stderr fail" << std::endl;
+        taskmaster::error::print("dup2 stderr fail");
         exit(EXIT_FAILURE);
     }
     close(fd_err);
 
     if (chdir(process_rules.m_working_directory.c_str()) == -1) {
-        cerr << "chdir fail" << std::endl;
+        taskmaster::error::print("chdir fail");
         exit(EXIT_FAILURE);
     }
 

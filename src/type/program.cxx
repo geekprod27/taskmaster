@@ -2,7 +2,7 @@
 
 namespace taskmaster {
 
-/// Spawns the required number of processes.
+/// \brief Spawns the required number of processes.
 ///
 /// Creates child processes according to the value of
 /// `m_rules.m_how_many_processes`.
@@ -30,6 +30,9 @@ void Program::start()
     }
 }
 
+// constructors
+/// \param rules The rules of the program. (will be moved/consumed)
+///
 Program::Program(
     ProgramRules &&rules
 )
