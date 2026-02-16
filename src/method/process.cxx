@@ -72,7 +72,7 @@ Process::Process(
         process_rules.m_command_arguments,
         process_rules.m_environment
     );
-    cerr << "execve fail" << std::endl;
+    taskmaster::error::print("execve fail");
     exit(EXIT_FAILURE);
 }
 
