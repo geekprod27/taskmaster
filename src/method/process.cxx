@@ -36,11 +36,11 @@ Process::Process(
     const int fd_out =
         open(process_rules.m_stdout_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 
-    if (fd_err <= 0 || fd_out <= 0) {
-        if (fd_err > 0) {
+    if (fd_err != -1 || fd_out != -1) {
+        if (fd_err != -1) {
             close(fd_err);
         }
-        if (fd_out > 0) {
+        if (fd_out != -1) {
             close(fd_out);
         }
         taskmaster::error::print("open fail");
