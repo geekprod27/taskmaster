@@ -36,6 +36,8 @@ SRC := $(strip \
 			) \
 			$(addprefix method/, \
 				c_string_array \
+				process \
+				program \
 			) \
 			error \
 			main \
