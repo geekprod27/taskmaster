@@ -36,8 +36,6 @@ SRC := $(strip \
 			) \
 			$(addprefix method/, \
 				c_string_array \
-			) \
-			$(addprefix type/, \
 				process \
 				program \
 			) \

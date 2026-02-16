@@ -5,8 +5,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-using std::cerr;
-
 namespace taskmaster {
 
 ///  \brief Constructs a Process and initializes its execution environment.
@@ -32,18 +30,11 @@ Process::Process(
     if (m_id != 0) {
         return;
     }
-    umask(0); // ensures the file is created with 777 permissions (otherwise 775).
 
-    const int fd_err = open(
-        process_rules.m_stderr_redirection_file.c_str(),
-        O_WRONLY | O_CREAT | O_APPEND,
-        process_rules.m_permissions_on_new_files
-    );
-    const int fd_out = open(
-        process_rules.m_stdout_redirection_file.c_str(),
-        O_WRONLY | O_CREAT | O_APPEND,
-        process_rules.m_permissions_on_new_files
-    );
+    const int fd_err =
+        open(process_rules.m_stderr_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
+    const int fd_out =
+        open(process_rules.m_stdout_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 
     if (fd_err <= 0 || fd_out <= 0) {
         if (fd_err > 0) {
@@ -75,6 +66,7 @@ Process::Process(
         exit(EXIT_FAILURE);
     }
 
+    umask(process_rules.m_permissions_on_new_files);
     execve(
         process_rules.m_command_arguments[0],
         process_rules.m_command_arguments,
