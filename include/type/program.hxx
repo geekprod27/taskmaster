@@ -14,11 +14,15 @@ class Program
 private: // fields
     ProgramRules       m_rules;
     std::list<Process> m_processes;
+    void               RestartProcess(taskmaster::RestartAttemptCounter restart_left);
+    bool               ProcessNeedsToBeOrNotToBeRestared(ExitStatus status);
 
 public:
     Program(ProgramRules &&rules);
 
     void start();
+    void Monitor();
+    bool MustBeStartedAtLaunch();
 };
 
 } // namespace taskmaster

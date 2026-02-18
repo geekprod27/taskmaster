@@ -11,16 +11,21 @@ namespace taskmaster {
 class Process
 {
 public: // fields
-    pid_t const               m_id;
-    RestartAttemptCounter     m_restart_left;
-    std::optional<ExitStatus> m_exit_status;
-    bool                      m_started;
+    pid_t const                           m_id;
+    RestartAttemptCounter                 m_restart_left;
+    ExitStatus                            m_exit_status;
+    bool                                  m_started;
+    std::chrono::system_clock::time_point m_start_time;
 
 public: // constructors
-    Process(ProcessRules const &rules);
+    Process(ProcessRules const &rules, taskmaster::RestartAttemptCounter how_many_restart_attempts);
 
 public:
-    bool Monitor();
+    bool                              IsRunning();
+    void                              Started();
+    bool                              GetStarted();
+    ExitStatus                        GetStatus();
+    taskmaster::RestartAttemptCounter GetRestartAttemps();
 };
 
 } // namespace taskmaster
