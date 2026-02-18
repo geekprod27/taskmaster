@@ -6,6 +6,13 @@ LINK  := $(shell which clang++)
 MKDIR := $(shell which mkdir) -p
 RM    := $(shell which rm) -rf
 
+###############
+# ENVIRONMENT #
+###############
+ifndef TERM
+	TERM := dumb
+endif
+
 ###########
 # PROJECT #
 ###########
@@ -111,10 +118,12 @@ FWIDTH_OF_COMPLEMENT := 29
 # $2: foreground color for complement text
 # $3: complement text
 define ANNOUNCE_PROGRESS
+	export TERM=$(TERM)
 	printf '%$(FWIDTH_OF_STEP)s ' $1
-	tput setaf $2 bold
+	tput -T$(TERM) bold                    || true
+	tput -T$(TERM) setaf $2                || true
 	printf %-$(FWIDTH_OF_COMPLEMENT)s '$3'
-	tput sgr0
+	tput -T$(TERM) sgr0                    || true
 	echo -n ' '
 endef
 
@@ -122,9 +131,10 @@ endef
 # $2: result text
 define ANNOUNCE_DONE
 	echo -n '-> '
-	tput setaf $1 bold
+	tput -T$(TERM) bold     || true
+	tput -T$(TERM) setaf $1 || true
 	echo -n '$2'
-	tput sgr0
+	tput -T$(TERM) sgr0     || true
 	echo
 endef
 
@@ -136,40 +146,26 @@ all: $(ELF)
 
 $(ELF): $(OBJ)
 	@$(MKDIR) $(@D)
-ifdef TERM
 	@$(call ANNOUNCE_PROGRESS,Linking,$(BRIGHT_BLUE),obj/**/*.o)
-endif
 	@$(LINK) $(LDFLAGS) $(OUTPUT_OPTION) $^
-ifdef TERM
 	@$(call ANNOUNCE_DONE,$(GREEN),$@)
-endif
 
 -include $(DEP)
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.cxx
 	@$(MKDIR) $(@D)
-ifdef TERM
 	@$(call ANNOUNCE_PROGRESS,Compiling,$(BRIGHT_BLUE),$<)
-endif
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(OUTPUT_OPTION) $<
-ifdef TERM
 	@$(call ANNOUNCE_DONE,$(GREEN),$@)
-endif
 
 .PHONY: clean
 clean:
-ifdef TERM
 	@$(call ANNOUNCE_PROGRESS,Deleting,$(BRIGHT_RED),$(DIR_OBJ))
-endif
 	@$(RM) $(DIR_OBJ)
-ifdef TERM
 	@$(call ANNOUNCE_DONE,$(BRIGHT_BLACK),ø)
 	@$(call ANNOUNCE_PROGRESS,Deleting,$(BRIGHT_RED),$(DIR_ELF))
-endif
 	@$(RM) $(DIR_ELF)
-ifdef TERM
 	@$(call ANNOUNCE_DONE,$(BRIGHT_BLACK),ø)
-endif
 
 .PHONY: re
 re: clean all
