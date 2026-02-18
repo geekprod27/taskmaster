@@ -118,7 +118,6 @@ FWIDTH_OF_COMPLEMENT := 29
 # $2: foreground color for complement text
 # $3: complement text
 define ANNOUNCE_PROGRESS
-	export TERM=$(TERM)
 	printf '%$(FWIDTH_OF_STEP)s ' $1
 	tput -T$(TERM) bold                    || true
 	tput -T$(TERM) setaf $2                || true
