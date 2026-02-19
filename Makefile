@@ -6,6 +6,13 @@ LINK  := $(shell which clang++)
 MKDIR := $(shell which mkdir) -p
 RM    := $(shell which rm) -rf
 
+###############
+# ENVIRONMENT #
+###############
+ifndef TERM
+	TERM := dumb
+endif
+
 ###########
 # PROJECT #
 ###########
@@ -25,6 +32,11 @@ DIR_ELF := elf
 SRC := $(strip \
 	$(addprefix $(DIR_SRC)/, \
 		$(addsuffix .cxx, \
+			$(addprefix method/, \
+				c_string_array \
+				process \
+				program \
+			) \
 			$(addprefix monitor/, \
 				core \
 			) \
@@ -33,11 +45,6 @@ SRC := $(strip \
 			) \
 			$(addprefix prompt/, \
 				core \
-			) \
-			$(addprefix method/, \
-				c_string_array \
-				process \
-				program \
 			) \
 			error \
 			main \
@@ -81,100 +88,53 @@ else
 CXXFLAGS += -O2
 endif
 
-#########################
-# ANSI ESCAPE SEQUENCES #
-#########################
-ERASE_LINE := \e[2K
-
-RESET_GRAPHICS    := \e[0m
-SET_BOLD          := \e[1m
-SET_FAINT         := \e[2m
-SET_ITALIC        := \e[3m
-SET_UNDERLINE     := \e[4m
-SET_BLINK         := \e[5m
-SET_INVERSE       := \e[7m
-SET_HIDDEN        := \e[8m
-SET_STRIKETHROUGH := \e[9m
-
-RESET_BOLD          := \e[22m
-RESET_FAINT         := \e[22m
-RESET_ITALIC        := \e[23m
-RESET_UNDERLINE     := \e[24m
-RESET_BLINK         := \e[25m
-RESET_INVERSE       := \e[27m
-RESET_HIDDEN        := \e[28m
-RESET_STRIKETHROUGH := \e[29m
-
-SET_FOREGROUND_BLACK   := \e[30m
-SET_FOREGROUND_RED     := \e[31m
-SET_FOREGROUND_GREEN   := \e[32m
-SET_FOREGROUND_YELLOW  := \e[33m
-SET_FOREGROUND_BLUE    := \e[34m
-SET_FOREGROUND_MAGENTA := \e[35m
-SET_FOREGROUND_CYAN    := \e[36m
-SET_FOREGROUND_WHITE   := \e[37m
-SET_FOREGROUND_DEFAULT := \e[39m
-SET_BACKGROUND_BLACK   := \e[40m
-SET_BACKGROUND_RED     := \e[41m
-SET_BACKGROUND_GREEN   := \e[42m
-SET_BACKGROUND_YELLOW  := \e[43m
-SET_BACKGROUND_BLUE    := \e[44m
-SET_BACKGROUND_MAGENTA := \e[45m
-SET_BACKGROUND_CYAN    := \e[46m
-SET_BACKGROUND_WHITE   := \e[47m
-SET_BACKGROUND_DEFAULT := \e[49m
-
-SET_FOREGROUND_BRIGHT_BLACK   := \e[90m
-SET_FOREGROUND_BRIGHT_RED     := \e[91m
-SET_FOREGROUND_BRIGHT_GREEN   := \e[92m
-SET_FOREGROUND_BRIGHT_YELLOW  := \e[93m
-SET_FOREGROUND_BRIGHT_BLUE    := \e[94m
-SET_FOREGROUND_BRIGHT_MAGENTA := \e[95m
-SET_FOREGROUND_BRIGHT_CYAN    := \e[96m
-SET_FOREGROUND_BRIGHT_WHITE   := \e[97m
-SET_BACKGROUND_BRIGHT_BLACK   := \e[100m
-SET_BACKGROUND_BRIGHT_RED     := \e[101m
-SET_BACKGROUND_BRIGHT_GREEN   := \e[102m
-SET_BACKGROUND_BRIGHT_YELLOW  := \e[103m
-SET_BACKGROUND_BRIGHT_BLUE    := \e[104m
-SET_BACKGROUND_BRIGHT_MAGENTA := \e[105m
-SET_BACKGROUND_BRIGHT_CYAN    := \e[106m
-SET_BACKGROUND_BRIGHT_WHITE   := \e[107m
+###############
+# TPUT COLORS #
+###############
+BLACK          := 0
+RED            := 1
+GREEN          := 2
+YELLOW         := 3
+BLUE           := 4
+MAGENTA        := 5
+CYAN           := 6
+WHITE          := 7
+BRIGHT_BLACK   := 8
+BRIGHT_RED     := 9
+BRIGHT_GREEN   := 10
+BRIGHT_YELLOW  := 11
+BRIGHT_BLUE    := 12
+BRIGHT_MAGENTA := 13
+BRIGHT_CYAN    := 14
+BRIGHT_WHITE   := 15
 
 #############
 # FUNCTIONS #
 #############
 FWIDTH_OF_STEP       := 9
-FWIDTH_OF_COMPLEMENT := 30
+FWIDTH_OF_COMPLEMENT := 29
 
-define ANNOUNCE_LINKAGE_PROGRESS
-	printf '%$(FWIDTH_OF_STEP)s $(SET_BOLD)$(SET_FOREGROUND_BRIGHT_BLUE)%-$(FWIDTH_OF_COMPLEMENT)s$(RESET_GRAPHICS)' \
-		'Linking' \
-		'obj/**/*.o'
+# $1: step name
+# $2: foreground color for complement text
+# $3: complement text
+define ANNOUNCE_PROGRESS
+	printf '%$(FWIDTH_OF_STEP)s ' $1
+	tput -T$(TERM) bold                    || true
+	tput -T$(TERM) setaf $2                || true
+	printf %-$(FWIDTH_OF_COMPLEMENT)s '$3'
+	tput -T$(TERM) sgr0                    || true
+	echo -n ' '
 endef
 
-define ANNOUNCE_LINKAGE_DONE
-	printf '-> $(SET_BOLD)$(SET_FOREGROUND_GREEN)$@$(RESET_GRAPHICS)\n'
-endef
-
-define ANNOUNCE_COMPILATION_PROGRESS
-	printf '%$(FWIDTH_OF_STEP)s $(SET_BOLD)$(SET_FOREGROUND_BRIGHT_BLUE)%-$(FWIDTH_OF_COMPLEMENT)s$(RESET_GRAPHICS)' \
-		'Compiling' \
-		'$<'
-endef
-
-define ANNOUNCE_COMPILATION_DONE
-	printf '-> $(SET_BOLD)$(SET_FOREGROUND_GREEN)$@$(RESET_GRAPHICS)\n'
-endef
-
-define ANNOUNCE_DELETION_PROGRESS
-	printf '%$(FWIDTH_OF_STEP)s $(SET_BOLD)$(SET_FOREGROUND_RED)%s$(RESET_GRAPHICS)... ' \
-		Deleting \
-		'$1'
-endef
-
-define ANNOUNCE_DELETION_DONE
-	printf '$(SET_FOREGROUND_GREEN)done$(RESET_GRAPHICS)\n'
+# $1: foreground color for result text
+# $2: result text
+define ANNOUNCE_DONE
+	echo -n '-> '
+	tput -T$(TERM) bold     || true
+	tput -T$(TERM) setaf $1 || true
+	echo -n '$2'
+	tput -T$(TERM) sgr0     || true
+	echo
 endef
 
 #########
@@ -185,23 +145,26 @@ all: $(ELF)
 
 $(ELF): $(OBJ)
 	@$(MKDIR) $(@D)
-	@$(call ANNOUNCE_LINKAGE_PROGRESS)
+	@$(call ANNOUNCE_PROGRESS,Linking,$(BRIGHT_BLUE),obj/**/*.o)
 	@$(LINK) $(LDFLAGS) $(OUTPUT_OPTION) $^
-	@$(call ANNOUNCE_LINKAGE_DONE)
+	@$(call ANNOUNCE_DONE,$(GREEN),$@)
 
 -include $(DEP)
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.cxx
 	@$(MKDIR) $(@D)
-	@$(call ANNOUNCE_COMPILATION_PROGRESS)
+	@$(call ANNOUNCE_PROGRESS,Compiling,$(BRIGHT_BLUE),$<)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(OUTPUT_OPTION) $<
-	@$(call ANNOUNCE_COMPILATION_DONE)
+	@$(call ANNOUNCE_DONE,$(GREEN),$@)
 
 .PHONY: clean
 clean:
-	@$(call ANNOUNCE_DELETION_PROGRESS,$(DIR_OBJ) and $(DIR_ELF))
-	@$(RM) $(DIR_OBJ) $(DIR_ELF)
-	@$(call ANNOUNCE_DELETION_DONE)
+	@$(call ANNOUNCE_PROGRESS,Deleting,$(BRIGHT_RED),$(DIR_OBJ))
+	@$(RM) $(DIR_OBJ)
+	@$(call ANNOUNCE_DONE,$(BRIGHT_BLACK),ø)
+	@$(call ANNOUNCE_PROGRESS,Deleting,$(BRIGHT_RED),$(DIR_ELF))
+	@$(RM) $(DIR_ELF)
+	@$(call ANNOUNCE_DONE,$(BRIGHT_BLACK),ø)
 
 .PHONY: re
 re: clean all
