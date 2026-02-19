@@ -1,4 +1,5 @@
 #include "type/program.hxx"
+#include "error.hxx"
 #include <algorithm>
 #include <iostream>
 
@@ -52,6 +53,40 @@ retry_after_fork_fail:
     }
 }
 
+void Program::MonitorRunningProcess(
+    Process &current
+)
+{
+    if (!current.IsStarted()
+        && std::chrono::duration_cast<std::chrono::milliseconds>(
+               std::chrono::system_clock::now() - current.m_start_time
+           ) >= m_rules.m_successful_start_time) {
+        current.Started();
+    }
+}
+
+void Program::MonitorNotRunningProcess(
+    std::list<Process>::iterator current
+)
+{
+    // std::cerr << current->IsStarted() << std::endl;
+    if (!current->IsStarted()) {
+        taskmaster::RestartAttemptCounter restart_left = current->GetRestartAttemps();
+        if (restart_left) {
+            m_processes.erase(current);
+            RestartProcess(restart_left - 1);
+        }
+        else { // TODO write in logs
+            m_processes.erase(current);
+            std::cout << "le nombre de restart est arriver" << std::endl;
+        }
+    }
+    else if (ProcessNeedsToBeOrNotToBeRestared(current->GetStatus())) {
+        m_processes.erase(current);
+        RestartProcess(m_rules.m_process_rules.m_how_many_restart_attempts);
+    }
+}
+
 void Program::Monitor()
 {
     std::list<Process>::iterator next = m_processes.begin();
@@ -59,30 +94,12 @@ void Program::Monitor()
     while (next != m_processes.end()) {
         std::list<Process>::iterator const current = next++;
         if (current->IsRunning()) {
-            if (!current->GetStarted()) {
-                if (std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::system_clock::now() - current->m_start_time
-                    )
-                    >= m_rules.m_successful_start_time) {
-                    current->Started();
-                }
-            }
+            // std::cerr << "run" << std::endl;
+            MonitorRunningProcess(*current);
         }
         else {
-            if (!current->GetStarted()) {
-                taskmaster::RestartAttemptCounter restart_left = current->GetRestartAttemps();
-                if (restart_left) {
-                    m_processes.erase(current);
-                    RestartProcess(restart_left - 1);
-                }
-                else { // TODO write in logs
-                    std::cout << "le nombre de restart est arriver" << std::endl;
-                }
-            }
-            else if (ProcessNeedsToBeOrNotToBeRestared(current->GetStatus())) {
-                m_processes.erase(current);
-                RestartProcess(m_rules.m_process_rules.m_how_many_restart_attempts);
-            }
+            // std::cerr << "not run" << std::endl;
+            MonitorNotRunningProcess(current);
         }
     }
 }

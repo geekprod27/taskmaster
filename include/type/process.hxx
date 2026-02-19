@@ -23,7 +23,7 @@ public: // constructors
 public:
     bool                              IsRunning();
     void                              Started();
-    bool                              GetStarted();
+    bool                              IsStarted();
     ExitStatus                        GetStatus();
     taskmaster::RestartAttemptCounter GetRestartAttemps();
 };

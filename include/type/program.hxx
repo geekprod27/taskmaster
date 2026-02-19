@@ -16,6 +16,8 @@ private: // fields
     std::list<Process> m_processes;
     void               RestartProcess(taskmaster::RestartAttemptCounter restart_left);
     bool               ProcessNeedsToBeOrNotToBeRestared(ExitStatus status);
+    void               MonitorRunningProcess(Process &current);
+    void               MonitorNotRunningProcess(std::list<Process>::iterator current);
 
 public:
     Program(ProgramRules &&rules);

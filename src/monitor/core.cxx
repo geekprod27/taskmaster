@@ -38,7 +38,9 @@ void start_and_monitor_programs(
 {
     start_programs(programs);
     while (true) {
-        // Monitoring logic would go here
+        for (auto &[program_name, program] : programs) {
+            program.Monitor();
+        }
     }
 }
 

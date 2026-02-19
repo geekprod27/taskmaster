@@ -29,15 +29,15 @@ Process::Process(
         throw std::system_error();
     }
     if (m_id != 0) {
+        m_start_time = std::chrono::system_clock::now();
         return;
     }
-
     const int fd_err =
         open(process_rules.m_stderr_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
     const int fd_out =
         open(process_rules.m_stdout_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 
-    if (fd_err != -1 || fd_out != -1) {
+    if (fd_err == -1 || fd_out == -1) {
         if (fd_err != -1) {
             close(fd_err);
         }
@@ -68,7 +68,6 @@ Process::Process(
     }
 
     umask(process_rules.m_permissions_on_new_files);
-    m_start_time = std::chrono::system_clock::now();
     execve(
         process_rules.m_command_arguments[0],
         process_rules.m_command_arguments,
@@ -82,7 +81,7 @@ bool Process::IsRunning() { return waitpid(m_id, &m_exit_status, WNOHANG) == 0; 
 
 void Process::Started() { m_started = true; }
 
-bool Process::GetStarted() { return m_started; }
+bool Process::IsStarted() { return m_started; }
 
 ExitStatus Process::GetStatus() { return m_exit_status; }
 
