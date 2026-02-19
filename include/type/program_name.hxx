@@ -3,6 +3,10 @@
 
 #include <string>
 
-namespace taskmaster { using ProgramName = std::string; }
+namespace taskmaster {
+
+using ProgramName = std::string;
+
+}
 
 #endif
