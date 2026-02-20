@@ -46,7 +46,7 @@ SRC := $(strip \
 			$(addprefix prompt/, \
 				core \
 			) \
-			error \
+			logger \
 			main \
 			run \
 			usage \

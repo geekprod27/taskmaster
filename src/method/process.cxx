@@ -1,7 +1,8 @@
 #include "type/process.hxx"
-#include "error.hxx"
+#include "logger.hxx"
+#include "logger/type/log_level.hxx"
+#include "logger/type/log_message.hxx"
 #include <fcntl.h>
-#include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -43,26 +44,26 @@ Process::Process(
         if (fd_out != -1) {
             close(fd_out);
         }
-        taskmaster::error::print("open fail");
+        logger::print(logger::LogLevel::Error, logger::LogMessage("open fail"));
         exit(EXIT_FAILURE);
     }
 
     if (dup2(fd_out, STDOUT_FILENO) == -1) {
         close(fd_out);
         close(fd_err);
-        taskmaster::error::print("dup2 stdout fail");
+        logger::print(logger::LogLevel::Error, logger::LogMessage("dup2 stdout fail"));
         exit(EXIT_FAILURE);
     }
     close(fd_out);
     if (dup2(fd_err, STDERR_FILENO) == -1) {
         close(fd_err);
-        taskmaster::error::print("dup2 stderr fail");
+        logger::print(logger::LogLevel::Error, logger::LogMessage("dup2 stderr fail"));
         exit(EXIT_FAILURE);
     }
     close(fd_err);
 
     if (chdir(process_rules.m_working_directory.c_str()) == -1) {
-        taskmaster::error::print("chdir fail");
+        logger::print(logger::LogLevel::Error, logger::LogMessage("chdir fail"));
         exit(EXIT_FAILURE);
     }
 
@@ -72,7 +73,7 @@ Process::Process(
         process_rules.m_command_arguments,
         process_rules.m_environment
     );
-    taskmaster::error::print("execve fail");
+    logger::print(logger::LogLevel::Error, logger::LogMessage("execve fail"));
     exit(EXIT_FAILURE);
 }
 
