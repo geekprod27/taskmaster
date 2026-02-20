@@ -4,10 +4,10 @@
 namespace taskmaster::logger {
 
 enum class LogLevel {
-    Debug,
-    Info,
-    Warning,
-    Error,
+    DEBUG,
+    INFO,
+    WARNING,
+    ERROR,
 };
 
 } // namespace taskmaster::logger
