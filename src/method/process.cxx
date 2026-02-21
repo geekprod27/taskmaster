@@ -21,7 +21,7 @@ namespace taskmaster {
 ///        If the call to `fork()` fails.
 ///
 Process::Process(
-    ProcessRules const &process_rules, taskmaster::RestartAttemptCounter how_many_restart_attempts
+    ProcessRules const &process_rules, const RestartAttemptCounter how_many_restart_attempts
 )
 : m_id(fork()), m_restart_left(how_many_restart_attempts), m_started(false)
 {
@@ -29,9 +29,10 @@ Process::Process(
         throw std::system_error();
     }
     if (m_id != 0) {
-        m_start_time = std::chrono::system_clock::now();
+        m_start_time = std::chrono::steady_clock::now();
         return;
     }
+
     const int fd_err =
         open(process_rules.m_stderr_redirection_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
     const int fd_out =
@@ -44,26 +45,26 @@ Process::Process(
         if (fd_out != -1) {
             close(fd_out);
         }
-        taskmaster::error::print("open fail");
+        error::print("open fail");
         exit(EXIT_FAILURE);
     }
 
     if (dup2(fd_out, STDOUT_FILENO) == -1) {
         close(fd_out);
         close(fd_err);
-        taskmaster::error::print("dup2 stdout fail");
+        error::print("dup2 stdout fail");
         exit(EXIT_FAILURE);
     }
     close(fd_out);
     if (dup2(fd_err, STDERR_FILENO) == -1) {
         close(fd_err);
-        taskmaster::error::print("dup2 stderr fail");
+        error::print("dup2 stderr fail");
         exit(EXIT_FAILURE);
     }
     close(fd_err);
 
     if (chdir(process_rules.m_working_directory.c_str()) == -1) {
-        taskmaster::error::print("chdir fail");
+        error::print("chdir fail");
         exit(EXIT_FAILURE);
     }
 
@@ -73,20 +74,18 @@ Process::Process(
         process_rules.m_command_arguments,
         process_rules.m_environment
     );
-    taskmaster::error::print("execve fail");
+    error::print("execve fail");
     exit(EXIT_FAILURE);
 }
 
-bool Process::IsRunning() { return waitpid(m_id, &m_exit_status, WNOHANG) == 0; }
+bool Process::is_running() noexcept { return waitpid(m_id, &m_exit_status, WNOHANG) == 0; }
 
-void Process::Started() { m_started = true; }
+void Process::started() noexcept { m_started = true; }
 
-bool Process::IsStarted() { return m_started; }
+bool Process::is_started() const noexcept { return m_started; }
 
-ExitStatus Process::GetStatus() { return m_exit_status; }
+ExitStatus Process::get_status() const noexcept { return m_exit_status; }
 
-taskmaster::RestartAttemptCounter Process::GetRestartAttemps() { return m_restart_left; }
+RestartAttemptCounter Process::get_restart_attemps() const noexcept { return m_restart_left; }
 
 } // namespace taskmaster
-
-#include <list>

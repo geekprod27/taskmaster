@@ -12,20 +12,20 @@ class Process
 {
 public: // fields
     pid_t const                           m_id;
-    RestartAttemptCounter                 m_restart_left;
+    RestartAttemptCounter const           m_restart_left;
     ExitStatus                            m_exit_status;
     bool                                  m_started;
-    std::chrono::system_clock::time_point m_start_time;
+    std::chrono::steady_clock::time_point m_start_time;
 
 public: // constructors
-    Process(ProcessRules const &rules, taskmaster::RestartAttemptCounter how_many_restart_attempts);
+    Process(ProcessRules const &rules, const RestartAttemptCounter how_many_restart_attempts);
 
 public:
-    bool                              IsRunning();
-    void                              Started();
-    bool                              IsStarted();
-    ExitStatus                        GetStatus();
-    taskmaster::RestartAttemptCounter GetRestartAttemps();
+    bool                  is_running() noexcept;
+    void                  started() noexcept;
+    bool                  is_started() const noexcept;
+    ExitStatus            get_status() const noexcept;
+    RestartAttemptCounter get_restart_attemps() const noexcept;
 };
 
 } // namespace taskmaster

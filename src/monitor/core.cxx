@@ -19,7 +19,7 @@ void start_programs(
 )
 {
     for (auto &[program_name, program] : programs) {
-        if (program.MustBeStartedAtLaunch()) {
+        if (program.must_be_started_at_launch()) {
             program.start();
         }
     }
@@ -39,7 +39,7 @@ void start_and_monitor_programs(
     start_programs(programs);
     while (true) {
         for (auto &[program_name, program] : programs) {
-            program.Monitor();
+            program.monitor();
         }
     }
 }
