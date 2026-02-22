@@ -15,6 +15,6 @@ int main(
         usage::print(av[0]);
         return 1;
     }
-    taskmaster::run(av[0], av[1]);
+    run(av[0], av[1]);
     return 0;
 }
