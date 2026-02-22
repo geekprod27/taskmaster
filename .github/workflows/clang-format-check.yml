@@ -9,12 +9,10 @@ jobs:
   clang-format:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Install LLVM 22
-        uses: llvm/actions/install-llvm@main
-        with:
-          version: 22
+    container:
+      image: ghcr.io/llvm/llvm-dev:22
 
+    steps:
       - name: Check version
         run: clang-format --version
 
