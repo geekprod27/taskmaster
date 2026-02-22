@@ -69,6 +69,7 @@ CXXFLAGS := $(strip \
 	-Wall \
 	-Wextra \
 	-Wunreachable-code \
+	-Wno-c99-designator \
 	-ferror-limit=1 \
 	-std=c++23 \
 )

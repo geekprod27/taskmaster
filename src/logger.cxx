@@ -5,38 +5,28 @@
 #include <iostream>
 #include <unistd.h>
 
-#define PRETTY_DEBUG   SGR(TEXT_BOLD FOREGROUND_YELLOW)
-#define PRETTY_INFO    SGR(TEXT_BOLD FOREGROUND_GREEN)
-#define PRETTY_WARNING SGR(TEXT_BOLD FOREGROUND_MAGENTA)
-#define PRETTY_ERROR   SGR(TEXT_BOLD FOREGROUND_RED)
-
 namespace taskmaster::logger {
 
-static inline void print_with_prefix(
-    char const *const prefix, LogMessage const &message
-) noexcept
-{
-    std::cout << prefix << ": " << message.str() << '\n';
-}
+constexpr struct {
+    char const *const m_text;
+    char const *const m_pretty;
+} PREFIXES[LogLevel::COUNT] = {
+    [LogLevel::DEBUG]   = {.m_text = "debug",   .m_pretty = SGR(TEXT_BOLD FOREGROUND_YELLOW) },
+    [LogLevel::INFO]    = {.m_text = "info",    .m_pretty = SGR(TEXT_BOLD FOREGROUND_GREEN)  },
+    [LogLevel::WARNING] = {.m_text = "warning", .m_pretty = SGR(TEXT_BOLD FOREGROUND_MAGENTA)},
+    [LogLevel::ERROR]   = {.m_text = "error",   .m_pretty = SGR(TEXT_BOLD FOREGROUND_RED)    },
+};
 
 void print(
     LogLevel const level, LogMessage const &message
 ) noexcept
 {
-    if (!isatty(STDOUT_FILENO)) {
-        switch (level) {
-        case LogLevel::DEBUG  : return print_with_prefix("debug", message);
-        case LogLevel::INFO   : return print_with_prefix("info", message);
-        case LogLevel::WARNING: return print_with_prefix("warning", message);
-        case LogLevel::ERROR  : return print_with_prefix("error", message);
-        }
-    }
-    switch (level) {
-    case LogLevel::DEBUG  : return print_with_prefix(PRETTY_DEBUG "debug" SGR(), message);
-    case LogLevel::INFO   : return print_with_prefix(PRETTY_INFO "info" SGR(), message);
-    case LogLevel::WARNING: return print_with_prefix(PRETTY_WARNING "warning" SGR(), message);
-    case LogLevel::ERROR  : return print_with_prefix(PRETTY_ERROR "error" SGR(), message);
-    }
+    using std::cout;
+
+    isatty(STDOUT_FILENO) && cout << PREFIXES[level].m_pretty;
+    cout << PREFIXES[level].m_text;
+    isatty(STDOUT_FILENO) && cout << SGR();
+    cout << ": " << message.str() << '\n';
 }
 
 } // namespace taskmaster::logger
