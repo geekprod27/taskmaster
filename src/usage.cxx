@@ -16,7 +16,7 @@ static inline void print_to_tty(
     char const *const program_name
 )
 {
-    cerr << PRETTY "Usage" SGR() << ": " << program_name << " <configuration_file>\n";
+    cerr << PRETTY "usage" SGR() << ": " << program_name << " path/to/configuration/file\n";
 }
 
 /// \param program_name is the name of the program (usually `argv[0]`).
