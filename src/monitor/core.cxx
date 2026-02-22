@@ -19,7 +19,9 @@ void start_programs(
 )
 {
     for (auto &[program_name, program] : programs) {
-        program.start();
+        if (program.must_be_started_at_launch()) {
+            program.start();
+        }
     }
 }
 
@@ -36,7 +38,9 @@ void start_and_monitor_programs(
 {
     start_programs(programs);
     while (true) {
-        // Monitoring logic would go here
+        for (auto &[program_name, program] : programs) {
+            program.monitor();
+        }
     }
 }
 
