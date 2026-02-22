@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Install clang-format 22 from LLVM repo
         run: |
-          deb http://apt.llvm.org/focal/ llvm-toolchain-focal main
-          deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main
+          sudo deb http://apt.llvm.org/focal/ llvm-toolchain-focal main
+          sudo deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main
 
           sudo apt update
           sudo apt install -y clang-format
