@@ -16,7 +16,7 @@ private: // fields
     std::list<Process> m_processes;
 
 private: // methods
-    void restart_process(taskmaster::RestartAttemptCounter restart_left);
+    void restart_process(RestartAttemptCounter restart_left);
     bool process_needs_to_be_or_not_to_be_restared(ExitStatus const status) const noexcept;
     void monitor_running_process(Process &current) const noexcept;
     void monitor_not_running_process(std::list<Process>::iterator const &current);

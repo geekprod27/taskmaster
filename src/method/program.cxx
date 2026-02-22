@@ -5,8 +5,6 @@
 
 namespace taskmaster {
 
-using namespace std::chrono;
-
 /// \brief Spawns the required number of processes.
 ///
 /// Creates child processes according to the value of
@@ -60,6 +58,8 @@ void Program::monitor_running_process(
     Process &current
 ) const noexcept
 {
+
+    using namespace std::chrono;
     if (!current.is_started()
         && duration_cast<milliseconds>(steady_clock::now() - current.m_start_time)
                >= m_rules.m_successful_start_time) {
