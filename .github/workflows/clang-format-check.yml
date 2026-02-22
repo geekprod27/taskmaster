@@ -17,14 +17,11 @@ jobs:
 
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
 
-          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/focal/ llvm-toolchain-focal main" \
+          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm-22/ llvm-toolchain-bookworm-22 main" \
             | sudo tee /etc/apt/sources.list.d/llvm.list
 
-          echo "deb https://packages.microsoft.com/debian/12/prod bookworm main" | sudo tee /etc/apt/sources.list.d/llvm.list
-
-          sudo apt update
-          sudo apt install -y clang-format=22.0.0
-          clang-format --version
+          sudo apt-get update
+          sudo apt-get install -y clang-format
 
       - name: Checkout repository
         uses: actions/checkout@v4
