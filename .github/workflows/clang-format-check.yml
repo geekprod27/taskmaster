@@ -23,7 +23,7 @@ jobs:
           echo "deb https://packages.microsoft.com/debian/12/prod bookworm main" | sudo tee /etc/apt/sources.list.d/llvm.list
 
           sudo apt update
-          sudo apt install -y clang-format-22
+          sudo apt install -y clang-format=22.0.0
           clang-format --version
 
       - name: Checkout repository
