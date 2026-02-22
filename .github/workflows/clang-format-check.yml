@@ -10,25 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install clang-format 22 from LLVM repo
-        run: |
-          sudo rm -f /etc/apt/sources.list.d/llvm*.list
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg lsb-release ca-certificates
+      - name: Install LLVM 22
+        uses: llvm/actions/install-llvm@main
+        with:
+          version: 22
 
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
-
-          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-22 main" \
-            | sudo tee /etc/apt/sources.list.d/llvm.list
-
-
-          # sudo rm -rf /var/lib/apt/lists/*
-          # sudo apt-get clean
-          # sudo apt-get update -o Acquire::Retries=3
-
-          sudo apt-get update
-          sudo apt-get install -y clang-format-22
-          clang-format --version
+      - name: Check version
+        run: clang-format --version
 
       - name: Checkout repository
         uses: actions/checkout@v4
