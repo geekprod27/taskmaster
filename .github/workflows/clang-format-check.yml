@@ -12,8 +12,12 @@ jobs:
     steps:
       - name: Install clang-format 22 from LLVM repo
         run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg lsb-release ca-certificates
 
-          echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" \
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
+
+          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/focal/ llvm-toolchain-focal main" \
             | sudo tee /etc/apt/sources.list.d/llvm.list
 
           sudo apt update
