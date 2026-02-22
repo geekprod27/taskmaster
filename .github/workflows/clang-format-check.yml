@@ -17,7 +17,7 @@ jobs:
 
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
 
-          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm deb http://apt.llvm.org/noble/ llvm-toolchain main" \
+          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm http://apt.llvm.org/noble/ llvm-toolchain main" \
             | sudo tee /etc/apt/sources.list.d/llvm.list
 
           sudo apt-get update
