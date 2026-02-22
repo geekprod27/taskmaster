@@ -20,6 +20,8 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/focal/ llvm-toolchain-focal main" \
             | sudo tee /etc/apt/sources.list.d/llvm.list
 
+          echo "deb https://packages.microsoft.com/debian/12/prod bookworm main" | sudo tee /etc/apt/sources.list.d/llvm.list
+
           sudo apt update
           sudo apt install -y clang-format
           clang-format --version
