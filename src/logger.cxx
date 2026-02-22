@@ -25,17 +25,17 @@ void print(
 {
     if (!isatty(STDOUT_FILENO)) {
         switch (level) {
-        case LogLevel::Debug  : return print_with_prefix("Debug", message);
-        case LogLevel::Info   : return print_with_prefix("Info", message);
-        case LogLevel::Warning: return print_with_prefix("Warning", message);
-        case LogLevel::Error  : return print_with_prefix("Error", message);
+        case LogLevel::DEBUG  : return print_with_prefix("debug", message);
+        case LogLevel::INFO   : return print_with_prefix("info", message);
+        case LogLevel::WARNING: return print_with_prefix("warning", message);
+        case LogLevel::ERROR  : return print_with_prefix("error", message);
         }
     }
     switch (level) {
-    case LogLevel::Debug  : return print_with_prefix(PRETTY_DEBUG "Debug" SGR(), message);
-    case LogLevel::Info   : return print_with_prefix(PRETTY_INFO "Info" SGR(), message);
-    case LogLevel::Warning: return print_with_prefix(PRETTY_WARNING "Warning" SGR(), message);
-    case LogLevel::Error  : return print_with_prefix(PRETTY_ERROR "Error" SGR(), message);
+    case LogLevel::DEBUG  : return print_with_prefix(PRETTY_DEBUG "debug" SGR(), message);
+    case LogLevel::INFO   : return print_with_prefix(PRETTY_INFO "info" SGR(), message);
+    case LogLevel::WARNING: return print_with_prefix(PRETTY_WARNING "warning" SGR(), message);
+    case LogLevel::ERROR  : return print_with_prefix(PRETTY_ERROR "error" SGR(), message);
     }
 }
 

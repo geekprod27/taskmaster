@@ -44,26 +44,26 @@ Process::Process(
         if (fd_out != -1) {
             close(fd_out);
         }
-        logger::print(logger::LogLevel::Error, logger::LogMessage("open fail"));
+        logger::print(logger::LogLevel::ERROR, logger::LogMessage("open fail"));
         exit(EXIT_FAILURE);
     }
 
     if (dup2(fd_out, STDOUT_FILENO) == -1) {
         close(fd_out);
         close(fd_err);
-        logger::print(logger::LogLevel::Error, logger::LogMessage("dup2 stdout fail"));
+        logger::print(logger::LogLevel::ERROR, logger::LogMessage("dup2 stdout fail"));
         exit(EXIT_FAILURE);
     }
     close(fd_out);
     if (dup2(fd_err, STDERR_FILENO) == -1) {
         close(fd_err);
-        logger::print(logger::LogLevel::Error, logger::LogMessage("dup2 stderr fail"));
+        logger::print(logger::LogLevel::ERROR, logger::LogMessage("dup2 stderr fail"));
         exit(EXIT_FAILURE);
     }
     close(fd_err);
 
     if (chdir(process_rules.m_working_directory.c_str()) == -1) {
-        logger::print(logger::LogLevel::Error, logger::LogMessage("chdir fail"));
+        logger::print(logger::LogLevel::ERROR, logger::LogMessage("chdir fail"));
         exit(EXIT_FAILURE);
     }
 
@@ -73,7 +73,7 @@ Process::Process(
         process_rules.m_command_arguments,
         process_rules.m_environment
     );
-    logger::print(logger::LogLevel::Error, logger::LogMessage("execve fail"));
+    logger::print(logger::LogLevel::ERROR, logger::LogMessage("execve fail"));
     exit(EXIT_FAILURE);
 }
 

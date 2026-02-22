@@ -11,7 +11,7 @@ int main(
 )
 {
     if (ac != 2) {
-        logger::print(logger::LogLevel::Error, logger::LogMessage("invalid argument count"));
+        logger::print(logger::LogLevel::ERROR, logger::LogMessage("invalid argument count"));
         usage::print(av[0]);
         return 1;
     }

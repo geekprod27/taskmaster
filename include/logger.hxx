@@ -8,6 +8,6 @@ namespace taskmaster::logger {
 
 void print(LogLevel const level, LogMessage const &message) noexcept;
 
-}
+} // namespace taskmaster::logger
 
 #endif
