@@ -15,17 +15,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y wget xz-utils
 
-          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc3/LLVM-22.1.0-rc3-Linux-X64.tar.xz
+          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc3/LLVM-22.1.0-rc3-Linux-X64.tar.xz > /dev/null
 
           tar -xf LLVM-22.1.0-rc3-Linux-X64.tar.xz
           sudo mv LLVM-22.1.0-rc3-Linux-X64.tar.xz /opt/llvm-22
 
           echo "/opt/llvm-22/bin" >> $GITHUB_PATH
           export PATH=/opt/llvm-22/bin:$PATH
+          which clang-format
           clang-format --version
 
       - name: Check version
-        run: clang-format --version
+        run: |
+          clang-format --version
+          which clang-format
 
       - name: Checkout repository
         uses: actions/checkout@v4
