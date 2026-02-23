@@ -16,7 +16,7 @@ jobs:
       - name: Install clang-format 22 (official LLVM script)
         run: |
           apt-get update
-          apt-get install -y wget lsb_release
+          apt-get install -y wget lsb-release
 
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
