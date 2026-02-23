@@ -21,6 +21,8 @@ jobs:
           sudo mv LLVM-22.1.0-rc3-Linux-X64.tar.xz /opt/llvm-22
 
           echo "/opt/llvm-22/bin" >> $GITHUB_PATH
+          export PATH=/opt/llvm-22/bin:$PATH
+          clang-format --version
 
       - name: Check version
         run: clang-format --version
