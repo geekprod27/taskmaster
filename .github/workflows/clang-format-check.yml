@@ -15,19 +15,15 @@ jobs:
     steps:
       - name: Install clang-format 22
         run: |
-          apt-get update
-          apt-get install -y \
-            wget gnupg ca-certificates git
+          sudo apt-get update
+          sudo apt-get install -y wget xz-utils
 
-          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key \
-            | gpg --dearmor -o /usr/share/keyrings/llvm.gpg
+          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.0.0/LLVM-22.0.0-Linux-X64.tar.xz
 
-          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] \
-          http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-22 main" \
-            > /etc/apt/sources.list.d/llvm.list
+          tar -xf LLVM-22.0.0-Linux-X64.tar.xz
+          sudo mv LLVM-22.0.0-Linux-X64 /opt/llvm-22
 
-          apt-get update
-          apt-get install -y clang-format=22.0.0
+          echo "/opt/llvm-22/bin" >> $GITHUB_PATH
 
       - name: Check version
         run: clang-format --version
