@@ -28,7 +28,6 @@ jobs:
 
       - name: Check version
         run: |
-          ls  -lR /opt/llvm-22
           clang-format --version
           which clang-format
 
