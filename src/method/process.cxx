@@ -73,7 +73,6 @@ Process::Process(
         process_rules.m_command_arguments,
         process_rules.m_environment
     );
-    logger::print(logger::LogLevel::ERROR, logger::LogMessage("execve fail"));
     exit(EXIT_FAILURE);
 }
 

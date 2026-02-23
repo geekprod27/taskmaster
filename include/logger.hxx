@@ -1,5 +1,5 @@
-#ifndef TYPE_LOGGER_HXX
-#define TYPE_LOGGER_HXX
+#ifndef LOGGER_HXX
+#define LOGGER_HXX
 
 #include "logger/type/log_level.hxx"
 #include "logger/type/log_message.hxx"

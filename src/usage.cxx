@@ -27,7 +27,7 @@ static inline void print_to_non_tty(
     char const *const program_name
 )
 {
-    cerr << "Usage: " << program_name << " <configuration_file>\n";
+    cerr << "usage: " << program_name << " path/to/configuration/file\n";
 }
 
 /// \param program_name is the name of the program (usually `argv[0]`).
