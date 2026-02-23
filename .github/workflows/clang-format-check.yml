@@ -9,6 +9,9 @@ jobs:
   clang-format:
     runs-on: ubuntu-latest
 
+    container:
+      image: debian:bookworm
+
     steps:
       - name: Install clang-format 22 (official LLVM script)
         run: |
