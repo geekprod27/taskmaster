@@ -17,8 +17,9 @@ jobs:
 
           wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc3/LLVM-22.1.0-rc3-Linux-X64.tar.xz > /dev/null
 
-          tar -xf LLVM-22.1.0-rc3-Linux-X64.tar.xz
-          sudo mv LLVM-22.1.0-rc3-Linux-X64.tar.xz /opt/llvm-22
+          sudo mkdir -p /opt/llvm-22
+
+          tar -xf LLVM-22.1.0-rc3-Linux-X64.tar.xz -C /opt/llvm-22
 
           echo "/opt/llvm-22/bin" >> $GITHUB_PATH
           export PATH=/opt/llvm-22/bin:$PATH
@@ -27,7 +28,7 @@ jobs:
 
       - name: Check version
         run: |
-          ls /opt/llvm-22
+          ls  -lR /opt/llvm-22
           clang-format --version
           which clang-format
 
