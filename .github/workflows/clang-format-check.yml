@@ -28,6 +28,7 @@ jobs:
 
       - name: Check version
         run: |
+          export PATH=/opt/llvm-22/bin:$PATH
           clang-format --version
           which clang-format
 
