@@ -22,15 +22,15 @@ jobs:
           tar -xf LLVM-22.1.0-rc3-Linux-X64.tar.xz
           sudo mv LLVM-22.1.0-rc3-Linux-X64 /opt/llvm-22
 
-          echo "/opt/llvm-22/bin" >> $GITHUB_PATH
-          export PATH=/opt/llvm-22/bin:$PATH
+          echo "/opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64/bin" >> $GITHUB_PATH
+          export PATH=/opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64/bin:$PATH
           which clang-format
           clang-format --version
 
       - name: Check version
         run: |
-          export PATH=/opt/llvm-22/bin:$PATH
-          ls /opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64
+          # export PATH=/opt/llvm-22/bin:$PATH
+          # ls /opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64
           clang-format --version
           which clang-format
 
