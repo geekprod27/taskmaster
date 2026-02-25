@@ -10,18 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install clang-format 22 from LLVM repo
+      - name: Install clang-format 22
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget gnupg lsb-release ca-certificates
+          sudo apt-get install -y wget xz-utils
 
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/llvm.gpg
+          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc3/LLVM-22.1.0-rc3-Linux-X64.tar.xz > /dev/null
 
-          echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm main" \
-            | sudo tee /etc/apt/sources.list.d/llvm.list
+          sudo mkdir -p /opt/llvm-22
 
-          sudo apt-get update
-          sudo apt-get install -y clang-format
+          tar -xf LLVM-22.1.0-rc3-Linux-X64.tar.xz
+          sudo mv LLVM-22.1.0-rc3-Linux-X64 /opt/llvm-22
+
+          echo "/opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64/bin" >> $GITHUB_PATH
+          export PATH=/opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64/bin:$PATH
 
       - name: Checkout repository
         uses: actions/checkout@v4
