@@ -3,6 +3,10 @@
 
 #include <cstdint>
 
-namespace taskmaster { using ExitStatus = int; }
+namespace taskmaster {
+
+using ExitStatus = int;
+
+}
 
 #endif
