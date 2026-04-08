@@ -14,7 +14,7 @@ namespace taskmaster {
 ///
 /// \throw std::system_error
 ///        If process creation fails for any program.
-void start_programs(
+static void start_programs(
     std::map<ProgramName, Program> &programs
 )
 {

@@ -25,7 +25,7 @@ void Program::start()
                 m_rules.m_process_rules, m_rules.m_process_rules.m_how_many_restart_attempts
             );
         }
-        catch (std::system_error const &e) {
+        catch (std::system_error) {
             fail++;
             if (fail >= FAIL_FORK_THROW) {
                 throw;
@@ -45,7 +45,7 @@ retry_after_fork_fail:
     try {
         m_processes.emplace_back(m_rules.m_process_rules, restart_left);
     }
-    catch (std::system_error const &e) {
+    catch (std::system_error) {
         fail++;
         if (fail >= FAIL_FORK_THROW) {
             throw;
@@ -58,8 +58,8 @@ void Program::monitor_running_process(
     Process &current
 ) const noexcept
 {
-
     using namespace std::chrono;
+
     if (!current.is_started()
         && duration_cast<milliseconds>(steady_clock::now() - current.m_start_time)
                >= m_rules.m_successful_start_time) {
@@ -71,9 +71,9 @@ void Program::monitor_not_running_process(
     std::list<Process>::iterator const &current
 )
 {
-    m_processes.erase(current);
     if (!current->is_started()) {
         RestartAttemptCounter const restart_left = current->get_restart_attemps();
+        m_processes.erase(current);
 
         if (restart_left) {
             restart_process(restart_left - 1);
@@ -83,6 +83,7 @@ void Program::monitor_not_running_process(
         }
     }
     else if (process_needs_to_be_or_not_to_be_restared(current->get_status())) {
+        m_processes.erase(current);
         restart_process(m_rules.m_process_rules.m_how_many_restart_attempts);
     }
 }
@@ -109,7 +110,10 @@ bool Program::process_needs_to_be_or_not_to_be_restared(
             ));
 }
 
-bool Program::must_be_started_at_launch() { return m_rules.m_must_be_started_at_launch; }
+bool Program::must_be_started_at_launch() const noexcept
+{
+    return m_rules.m_must_be_started_at_launch;
+}
 
 // constructors
 /// \param rules The rules of the program. (will be moved/consumed)
