@@ -15,10 +15,19 @@ private: // fields
     ProgramRules       m_rules;
     std::list<Process> m_processes;
 
-public:
-    Program(ProgramRules &&rules);
+public: // constructor
+    Program(ProgramRules &&rules) noexcept;
 
+private: // methods
+    void restart_process(const RestartAttemptCounter restart_left);
+    bool process_needs_to_be_or_not_to_be_restared(ExitStatus const status) const noexcept;
+    void monitor_running_process(Process &current) const noexcept;
+    void monitor_not_running_process(std::list<Process>::iterator const &current);
+
+public: // methods
     void start();
+    void monitor();
+    bool must_be_started_at_launch() const noexcept;
 };
 
 } // namespace taskmaster

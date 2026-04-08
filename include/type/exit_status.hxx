@@ -5,7 +5,7 @@
 
 namespace taskmaster {
 
-using ExitStatus = uint_fast8_t;
+using ExitStatus = int;
 
 }
 

@@ -14,12 +14,14 @@ namespace taskmaster {
 ///
 /// \throw std::system_error
 ///        If process creation fails for any program.
-void start_programs(
+static void start_programs(
     std::map<ProgramName, Program> &programs
 )
 {
     for (auto &[program_name, program] : programs) {
-        program.start();
+        if (program.must_be_started_at_launch()) {
+            program.start();
+        }
     }
 }
 
@@ -36,7 +38,9 @@ void start_and_monitor_programs(
 {
     start_programs(programs);
     while (true) {
-        // Monitoring logic would go here
+        for (auto &[program_name, program] : programs) {
+            program.monitor();
+        }
     }
 }
 
