@@ -12,18 +12,11 @@ jobs:
     steps:
       - name: Install clang-format 22
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget xz-utils
-
-          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0-rc3/LLVM-22.1.0-rc3-Linux-X64.tar.xz > /dev/null
-
-          sudo mkdir -p /opt/llvm-22
-
-          tar -xf LLVM-22.1.0-rc3-Linux-X64.tar.xz
-          sudo mv LLVM-22.1.0-rc3-Linux-X64 /opt/llvm-22
-
-          echo "/opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64/bin" >> $GITHUB_PATH
-          export PATH=/opt/llvm-22/LLVM-22.1.0-rc3-Linux-X64/bin:$PATH
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 22
+          sudo apt install clang-format-22
+          clang-format-22 -version
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,7 +32,7 @@ jobs:
             exit 0
           fi
 
-          clang-format -i $FILES
+          clang-format-22 -i $FILES
 
           # If file change -> error
           if ! git diff --exit-code; then
